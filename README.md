@@ -1,4 +1,4 @@
-# [Elasticsearch Reference: 6.5](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/getting-started.html)
+# [Elasticsearch Reference: 6.6](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started.html)
 
 ## Getting Started
 - Basic Concepts
@@ -20,6 +20,7 @@
     - Executing Filters
     - Executing Aggregations
 - Conclusion
+
 ## Set up Elasticsearch
 - Installing Elasticsearch
     - Install Elasticsearch with .zip or .tar.gz
@@ -128,6 +129,7 @@
 - Term Vectors
 - Multi termvectors API
 - `?refresh`
+- Optimistic concurrency control
 
 ## Search APIs
 - Search
@@ -191,6 +193,7 @@
     - Sum Aggregation
     - Top Hits Aggregation
     - Value Count Aggregation
+    - Median Absolute Deviation Aggregation
 - Bucket Aggregations
     - Adjacency Matrix Aggregation
     - Auto-interval Date Histogram Aggregation
@@ -209,6 +212,7 @@
     - IP Range Aggregation
     - Missing Aggregation
     - Nested Aggregation
+    - Parent Aggregation
     - Range Aggregation
     - Reverse nested Aggregation
     - Sampler Aggregation
@@ -407,6 +411,8 @@
     - ignore_malformed
     - index
     - index_options
+    - index_phrases
+    - index_prefixes
     - fields
     - norms
     - null_value
@@ -477,7 +483,9 @@
     - Snowball Token Filter
     - Phonetic Token Filter
     - Synonym Token Filter
+    - Parsing synonym files
     - Synonym Graph Token Filter
+    - Parsing synonym files
     - Compound Word Token Filters
     - Reverse Token Filter
     - Elision Token Filter
@@ -528,6 +536,7 @@
     - Indexing Buffer
     - Shard request cache
     - Indices Recovery
+    - Search Settings
 - Network Settings
 - Node
 - Plugins
@@ -605,6 +614,29 @@
     - Uppercase Processor
     - URL Decode Processor
 
+## Managing the index lifecycle
+- Getting started with index lifecycle management
+    - Setting up a new policy
+    - Applying a policy to our index
+    - Checking progress
+- Policy phases and actions
+    - Timing
+    - Phase Execution
+    - Actions
+    - Full Policy
+- Set up index lifecycle management policy
+    - Applying a policy to an index template
+    - Apply a policy to a create index request
+- Using policies to manage index rollover
+    - Skipping Rollover
+- Update policy
+    - Updates to policies not managing indices
+    - Updates to executing policies
+    - Switching policies for an index
+- Index lifecycle error handling
+- Restoring snapshots of managed indices
+- Start and stop index lifecycle management
+
 ## SQL Access
 - Overview
 - Getting Started with SQL
@@ -616,10 +648,19 @@
 - SQL CLI
 - SQL JDBC
     - API usage
+- SQL ODBC
+    - Driver installation
+    - Configuration
 - SQL Client Applications
     - DBeaver
     - DbVisualizer
-    - SQquirelL SQL
+    - Microsoft Excel
+    - Microsoft Power BI Desktop
+    - Microsoft PowerShell
+    - MicroStrategy Desktop
+    - Qlik Sense Desktop
+    - SQuirreL SQL
+    - Tableau Desktop
     - SQL Workbench/J
 - SQL Language
 - Data Types
@@ -635,12 +676,16 @@
     - Logical Operators
     - Math Operators
     - Aggregate Functions
-    - Date and Time Functions
+    - Grouping Functions
+    - Date/Time and Interval Functions and Operators
     - Full-Text Search Functions
     - Math Functions
     - String Functions
     - Type Conversion Functions
+    - Conditional Functions
+    - System Functions
 - Reserved keywords
+- SQL Limitations
 
 ## Monitoring Elasticsearch
 - Collectors
@@ -659,6 +704,10 @@
 - Rollup Aggregation Limitations
 - Rollup Search Limitations
 
+## Frozen Indices
+- Best Practices
+- Searching a frozen index
+
 ## X-Pack APIs
 - Info API
 - Cross-cluster replication APIs
@@ -672,6 +721,18 @@
     - Delete auto-follow pattern
     - Get auto-follow pattern
 - Explore API
+- Freeze index
+- Index lifecycle management API
+    - Create policy
+    - Get policy
+    - Delete policy
+    - Move to step
+    - Remove policy
+    - Retry policy
+    - Get index lifecycle management status
+    - Explain lifecycle
+    - Start index lifecycle management
+    - Stop index lifecycle management
 - Licensing APIs
     - Delete license
     - Get license
@@ -700,6 +761,7 @@
     - Delete jobs
     - Delete jobs from calendar
     - Delete model snapshots
+    - Delete expired data
     - Find file structure
     - Flush jobs
     - Forecast jobs
@@ -760,6 +822,7 @@
     - Has privileges
     - Invalidate token
     - SSL certificate
+- Unfreeze index
 - Watcher APIs
     - Put watch
     - Get watch
@@ -784,6 +847,7 @@
     - Scheduled event resources
 
 ## Command line tools
+- elasticsearch-certgen
 - elasticsearch-certutil
 - elasticsearch-migrate
 - elasticsearch-saml-metadata
@@ -799,12 +863,11 @@
     - Getting consistent scoring
 - Tune for indexing speed
 - Tune for search speed
-    - Tune your queries with the Profile API
 - Tune for disk usage
 
 ## Testing
 - Java Testing Framework
-    - why randomized testing?
+    - Why randomized testing?
     - Using the Elasticsearch test classes
     - unit tests
     - Integration tests
