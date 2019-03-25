@@ -117,7 +117,7 @@
 
 ### [1-9. Installing X-Pack](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/installing-xpack-es.html)
 
-### [1-10. Set up X-Pack]
+### [1-10. Set up X-Pack](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup-xpack.html)
 
 ### [1-11. Configuring monitoring]
 - Collecting monitoring data
