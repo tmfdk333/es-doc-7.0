@@ -3,18 +3,18 @@
 ## [[0] Getting Started](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started.html)
 
 - **[Basic Concepts](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html)**
-    - Near Realtime(NRT)
-    - Cluster
-    - Node
-    - Index
-    - Type **`!Deprecated!`**
-    - Document
-    - Shards & Replicas
+    1. [Near Realtime(NRT)](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_near_realtime_nrt)
+    2. [Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_cluster)
+    3. [Node](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_node)
+    4. [Index](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_index)
+    5. [Type](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_type) **`!Deprecated!`**
+    6. [Document](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_document)
+    7. [Shards & Replicas](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#getting-started-shards-and-replicas)
 - **[Installation](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html)**
-    - Installation example with tar
-    - Installation with Homebrew
-    - Installation example with MSI Windows Installer
-    - Successfully running node
+    1. [Installation example with tar](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#_installation_example_with_tar)
+    2. [Installation with Homebrew](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#_installation_with_homebrew)
+    3. [Installation example with MSI Windows Installer](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#_installation_example_with_msi_windows_installer)
+    4. [Successfully running node](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#successfully-running-node)
 - **[Exploring Your Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-explore.html)**
     - [Cluster Health](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-cluster-health.html)
     - [List All Indices](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-list-indices.html)
