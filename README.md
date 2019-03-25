@@ -101,12 +101,12 @@
 - All permission check
 
 ### [1-6. Starting Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/starting-elasticsearch.html)
-- Archive packages (.tar.gz)
-- Archive packages (.zip)
-- Debian packages
-- Docker images
-- MSI packages
-- RPM packages
+1. [Archive packages (.tar.gz)](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/starting-elasticsearch.html#start-targz)
+2. ~~Archive packages (.zip)~~
+3. ~~Debian packages~~
+4. ~~Docker images~~
+5. ~~MSI packages~~
+6. ~~RPM packages~~
 
 ### [1-7. Stopping Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/stopping-elasticsearch.html)
 - Stopping on Fatal Errors
