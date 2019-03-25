@@ -110,7 +110,8 @@
 - MSI packages
 - RPM packages
 
-### [1-7. Stopping Elasticsearch]
+### [1-7. Stopping Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/stopping-elasticsearch.html)
+- Stopping on Fatal Errors
 
 ### [1-8. Adding nodes to your cluster]
 
