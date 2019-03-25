@@ -47,21 +47,21 @@
 - **Install Elasticsearch with Docker**
 
 ### [1-2. Configuring Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html)
-* Config files location
-* Config file format
-* Environment variable substitution
-* Prompting for settings **`!Deprecated!`**
+* [Config files location](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#config-files-location)
+* [Config file format](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_config_file_format)
+* [Environment variable substitution](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_environment_variable_substitution)
+* [Prompting for settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_prompting_for_settings) **`!Deprecated!`**
 
 - **[Setting JVM options](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/jvm-options.html)**
 - **[Secure settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html)**
-    - Creating the keystore
-    - Listing settings in the keystore
-    - Adding string settings
-    - Removing settings
-    - Reloadable secure settings
+    - [Creating the keystore](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#creating-keystore)
+    - [Listing settings in the keystore](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#list-settings)
+    - [Adding string settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#add-string-to-keystore)
+    - [Removing settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#remove-settings)
+    - [Reloadable secure settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#reloadable-secure-settings)
 - **[Logging configuration](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/logging.html)**
-    - Configuring logging levels
-    - Deprecation logging
+    - [Configuring logging levels](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/logging.html#configuring-logging-levels)
+    - [Deprecation logging](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/logging.html#deprecation-logging)
 
 ### [1-3. Important Elasticsearch configuration]
 - `path.data` and `path.logs`
