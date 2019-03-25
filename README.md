@@ -102,7 +102,13 @@
 - G1GC check
 - All permission check
 
-### [1-6. Starting Elasticsearch]
+### [1-6. Starting Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/starting-elasticsearch.html)
+- Archive packages (.tar.gz)
+- Archive packages (.zip)
+- Debian packages
+- Docker images
+- MSI packages
+- RPM packages
 
 ### [1-7. Stopping Elasticsearch]
 
