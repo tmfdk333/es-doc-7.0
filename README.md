@@ -48,10 +48,22 @@
 - **[Install Elasticsearch with Windows MSI Installer](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/windows.html)**
 - **[Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/docker.html)**
 
-### [1-2. Configuring Elasticsearch]
-- Setting JVM options
-- Secure settings
-- Logging configuration
+### [1-2. Configuring Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html)
+* Config files location
+* Config file format
+* Environment variable substitution
+* Prompting for settings **`!Deprecated!`**
+
+- **[Setting JVM options](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/jvm-options.html)**
+- **[Secure settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html)**
+    - Creating the keystore
+    - Listing settings in the keystore
+    - Adding string settings
+    - Removing settings
+    - Reloadable secure settings
+- **[Logging configuration](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/logging.html)**
+    - Configuring logging levels
+    - Deprecation logging
 
 ### [1-3. Important Elasticsearch configuration]
 - `path.data` and `path.logs`
