@@ -111,7 +111,7 @@
 
 ## [[3] API Conventions](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/api-conventions.html)
 - [Multiple Indices](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/multi-index.html)
-- Date math support in index names
+- [Date math support in index names](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/date-math-index-names.html)
 - Common options
 - URL-based access control
 
