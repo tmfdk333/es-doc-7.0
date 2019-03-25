@@ -40,11 +40,11 @@
     - [Configuring Elasticsearch on the command line](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-configuring)
     - [Directory layout of .zip and .tar.gz archives](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-layout)
     - [Next steps](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#_next_steps)
-- **Install Elasticsearch with .zip on Windows**
-- **Install Elasticsearch with Debian Package**
-- **Install Elasticsearch with RPM**
-- **Install Elasticsearch with Windows MSI Installer**
-- **Install Elasticsearch with Docker**
+- ~~**Install Elasticsearch with .zip on Windows**~~
+- ~~**Install Elasticsearch with Debian Package**~~
+- ~~**Install Elasticsearch with RPM**~~
+- ~~**Install Elasticsearch with Windows MSI Installer**~~
+- ~~**Install Elasticsearch with Docker**~~
 
 ### [1-2. Configuring Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html)
 * [Config files location](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#config-files-location)
