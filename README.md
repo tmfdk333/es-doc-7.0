@@ -109,8 +109,8 @@
     - Reindex in place
     - Reindex from a remote cluster
 
-## API Conventions
-- Multiple Indices
+## [[3] API Conventions](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/api-conventions.html)
+- [Multiple Indices](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/multi-index.html)
 - Date math support in index names
 - Common options
 - URL-based access control
