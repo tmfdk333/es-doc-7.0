@@ -21,86 +21,118 @@
     - Executing Aggregations
 - Conclusion
 
-## Set up Elasticsearch
-- Installing Elasticsearch
-    - Install Elasticsearch with .zip or .tar.gz
-    - Install Elasticsearch with .zip on Windows
-    - Install Elasticsearch with Debian Package
-    - Install Elasticsearch with RPM
-    - Install Elasticsearch with Windows MSI Installer
-    - Install Elasticsearch with Docker
-- Configuring Elasticsearch
-    - Setting JVM options
-    - Secure settings
-    - Logging configuration
-- Important Elasticsearch configuration
-    - path.data and path.logs
-    - cluster.name
-    - node.name
-    - network.host
-    - Discovery settings
-    - Setting the heap size
-    - JVM heap dump path
-    - GC logging
-    - Temp directory
-    - JVM fatal error logs
-- Important System Configuration
-    - Configuring system settings
-    - Disable swapping
-    - File Descriptors
-    - Virtual memory
-    - Number of threads
-    - DNS cache settings
-    - JNA temporary directory not mounted with noexec
-- Bootstrap Checks
-    - Heap size check
-    - File descriptor check
-    - Memory lock check
-    - Maximum number of threads check
-    - Max file size check
-    - Maximum size virtual memory check
-    - Maximum map count check
-    - Client JVM check
-    - Use serial collector check
-    - System call filter check
-    - OnError and OnOutOfMemoryError checks
-    - Early-access check
-    - G1GC check
-    - All permission check
-- Starting Elasticsearch
-- Stopping Elasticsearch
-- Adding nodes to your cluster
-- Installing X-Pack
-- Set up X-Pack
-- Configuring monitoring
-    - Collecting monitoring data
-    - Collecting monitoring data with Metricbeat
-    - Configuring indices for monitoring
-    - Configuring a Tribe Node to Work with Monitoring
-    - Monitoring settings
-- Configuring security
-    - Encrypting communications in Elasticsearch
-    - Encrypting communications in an Elasticsearch Docker Container
-    - Enabling Cipher Suites for Stronger Encryption
-    - Separating node-to-node and client traffic
-    - Configuring an Active Directory realm
-    - Configuring a file realm
-    - Configuring an LDAP realm
-    - Configuring a native realm
-    - Configuring a PKI realm
-    - Configuring a SAML realm
-    - Configuring a Kerberos realm
-    - FIPS 140-2
-    - Security settings
-    - Security files
-    - Auditing Settings
-- Configuring X-Pack Java Clients
-- X-Pack Settings
-    - License Settings
-    - Machine learning settings
-    - Watcher Settings
-    - SQL Access Settings
-- Bootstrap Checks for X-Pack
+
+
+## [[1] Set up Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup.html)
+* Supported platforms
+* Java (JVM) Version
+
+### [1-1. Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html)
+* Hosted Elasticsearch
+* Installing Elasticsearch Yourself
+* Configuration Management Tools  
+
+- **[Install Elasticsearch with .zip or .tar.gz](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#setup-installation-daemon)**
+    - Download and install the .zip package
+    - Download and install the .tar.gz package
+    - Enable automatic creation of X-Pack indices
+    - Running Elasticsearch from the command line
+    - Checking that Elasticsearch is running
+    - Running as a daemon
+    - Configuring Elasticsearch on the command line
+    - Directory layout of .zip and .tar.gz archives
+    - Next steps
+- **[Install Elasticsearch with .zip on Windows](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-windows.html)**
+- **[Install Elasticsearch with Debian Package](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/deb.html)**
+- **[Install Elasticsearch with RPM](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/rpm.html)**
+- **[Install Elasticsearch with Windows MSI Installer](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/windows.html)**
+- **[Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/docker.html)**
+
+### [1-2. Configuring Elasticsearch]
+- Setting JVM options
+- Secure settings
+- Logging configuration
+
+### [1-3. Important Elasticsearch configuration]
+- `path.data` and `path.logs`
+- `cluster.name`
+- `node.name`
+- `network.host`
+- Discovery settings
+- Setting the heap size
+- JVM heap dump path
+- GC logging
+- Temp directory
+- JVM fatal error logs
+
+### [1-4. Important System Configuration]
+- Configuring system settings
+- Disable swapping
+- File Descriptors
+- Virtual memory
+- Number of threads
+- DNS cache settings
+- JNA temporary directory not mounted with noexec
+
+### [1-5. Bootstrap Checks]
+- Heap size check
+- File descriptor check
+- Memory lock check
+- Maximum number of threads check
+- Max file size check
+- Maximum size virtual memory check
+- Maximum map count check
+- Client JVM check
+- Use serial collector check
+- System call filter check
+- OnError and OnOutOfMemoryError checks
+- Early-access check
+- G1GC check
+- All permission check
+
+### [1-6. Starting Elasticsearch]
+
+### [1-7. Stopping Elasticsearch]
+
+### [1-8. Adding nodes to your cluster]
+
+### [1-9. Installing X-Pack]
+
+### [1-10. Set up X-Pack]
+
+### [1-11. Configuring monitoring]
+- Collecting monitoring data
+- Collecting monitoring data with Metricbeat
+- Configuring indices for monitoring
+- Configuring a Tribe Node to Work with Monitoring
+- Monitoring settings
+
+### [1-12. Configuring security]
+- Encrypting communications in Elasticsearch
+- Encrypting communications in an Elasticsearch Docker Container
+- Enabling Cipher Suites for Stronger Encryption
+- Separating node-to-node and client traffic
+- Configuring an Active Directory realm
+- Configuring a file realm
+- Configuring an LDAP realm
+- Configuring a native realm
+- Configuring a PKI realm
+- Configuring a SAML realm
+- Configuring a Kerberos realm
+- FIPS 140-2
+- Security settings
+- Security files
+- Auditing Settings
+
+### [1-13. Configuring X-Pack Java Clients]
+
+### [1-14. X-Pack Settings]
+- License Settings
+- Machine learning settings
+- Watcher Settings
+- SQL Access Settings
+
+### [1-15. Bootstrap Checks for X-Pack]
 
 ## Upgrade Elasticsearch
 - Rolling upgrades
