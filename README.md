@@ -21,32 +21,30 @@
     - Executing Aggregations
 - Conclusion
 
-
-
 ## [[1] Set up Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup.html)
-* Supported platforms
-* Java (JVM) Version
+1. [Supported platforms](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup.html#supported-platforms)
+2. [Java (JVM) Version](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup.html#jvm-version)
 
 ### [1-1. Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html)
-* Hosted Elasticsearch
-* Installing Elasticsearch Yourself
-* Configuration Management Tools  
+1. [Hosted Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html#_hosted_elasticsearch)
+2. [Installing Elasticsearch Yourself](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html#_installing_elasticsearch_yourself)
+3. [Configuration Management Tools](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html#config-mgmt-tools)  
 
 - **[Install Elasticsearch with .zip or .tar.gz](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#setup-installation-daemon)**
-    - Download and install the .zip package
-    - Download and install the .tar.gz package
-    - Enable automatic creation of X-Pack indices
-    - Running Elasticsearch from the command line
-    - Checking that Elasticsearch is running
-    - Running as a daemon
-    - Configuring Elasticsearch on the command line
-    - Directory layout of .zip and .tar.gz archives
-    - Next steps
-- **[Install Elasticsearch with .zip on Windows](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-windows.html)**
-- **[Install Elasticsearch with Debian Package](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/deb.html)**
-- **[Install Elasticsearch with RPM](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/rpm.html)**
-- **[Install Elasticsearch with Windows MSI Installer](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/windows.html)**
-- **[Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/docker.html)**
+    - [Download and install the .zip package](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#install-zip)
+    - [Download and install the .tar.gz package](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#install-targz)
+    - <ins>Enable automatic creation of X-Pack indices</ins>
+    - [Running Elasticsearch from the command line](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-running)
+    - [Checking that Elasticsearch is running](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#_checking_that_elasticsearch_is_running)
+    - [Running as a daemon](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#setup-installation-daemon)
+    - [Configuring Elasticsearch on the command line](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-configuring)
+    - [Directory layout of .zip and .tar.gz archives](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-layout)
+    - [Next steps](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#_next_steps)
+- **Install Elasticsearch with .zip on Windows**
+- **Install Elasticsearch with Debian Package**
+- **Install Elasticsearch with RPM**
+- **Install Elasticsearch with Windows MSI Installer**
+- **Install Elasticsearch with Docker**
 
 ### [1-2. Configuring Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html)
 * Config files location
