@@ -7,7 +7,7 @@
     2. [Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_cluster)
     3. [Node](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_node)
     4. [Index](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_index)
-    5. [Type](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_type) **`!Deprecated!`**
+    5. [Type](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_type) **`❗️Deprecated`**
     6. [Document](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_document)
     7. [Shards & Replicas](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#getting-started-shards-and-replicas)
 - **[Installation](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html)**
