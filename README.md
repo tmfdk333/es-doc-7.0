@@ -50,7 +50,7 @@
 * [Config files location](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#config-files-location)
 * [Config file format](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_config_file_format)
 * [Environment variable substitution](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_environment_variable_substitution)
-* [Prompting for settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_prompting_for_settings) **`!Deprecated!`**
+* [Prompting for settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_prompting_for_settings) **`❗️Deprecated`**
 
 - **[Setting JVM options](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/jvm-options.html)**
 - **[Secure settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html)**
