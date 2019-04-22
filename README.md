@@ -1,25 +1,37 @@
 # [Elasticsearch Reference: 6.6](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started.html)
 
-## Getting Started
-- Basic Concepts
-- Installation
-- Exploring Your Cluster
-    - Cluster Health
-    - List All Indices
-    - Create an Index
-    - Index and Query a Document
-    - Delete an Index
-- Modifying Your Data
-    - Updating Documents
-    - Deleting Documents
-    - Batch Processing
-- Exploring Your Data
-    - The Search API
-    - Introducing the Query Language
-    - Executing Searches
-    - Executing Filters
-    - Executing Aggregations
-- Conclusion
+## [[0] Getting Started](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started.html)
+
+- **[Basic Concepts](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html)**
+    1. [Near Realtime(NRT)](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_near_realtime_nrt)
+    2. [Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_cluster)
+    3. [Node](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_node)
+    4. [Index](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_index)
+    5. [Type](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_type) **`❗️Deprecated`**
+    6. [Document](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#_document)
+    7. [Shards & Replicas](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-concepts.html#getting-started-shards-and-replicas)
+- **[Installation](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html)**
+    1. [Installation example with tar](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#_installation_example_with_tar)
+    2. [Installation with Homebrew](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#_installation_with_homebrew)
+    3. [Installation example with MSI Windows Installer](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#_installation_example_with_msi_windows_installer)
+    4. [Successfully running node](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-install.html#successfully-running-node)
+- **[Exploring Your Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-explore.html)**
+    - [Cluster Health](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-cluster-health.html)
+    - [List All Indices](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-list-indices.html)
+    - [Create an Index](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-create-index.html)
+    - [Index and Query a Document](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-query-document.html)
+    - [Delete an Index](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-delete-index.html)
+- **[Modifying Your Data](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-modify-data.html)**
+    - [Updating Documents](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-update-documents.html)
+    - [Deleting Documents](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-delete-documents.html)
+    - [Batch Processing](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-batch-processing.html)
+- **[Exploring Your Data](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-explore-data.html)**
+    - [The Search API](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-search-API.html)
+    - [Introducing the Query Language](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-query-lang.html)
+    - [Executing Searches](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-search.html)
+    - [Executing Filters](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-filters.html)
+    - [Executing Aggregations](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-aggregations.html)
+- **[Conclusion](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-conclusion.html)**
 
 ## Set up Elasticsearch
 - Installing Elasticsearch
