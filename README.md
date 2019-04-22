@@ -33,86 +33,135 @@
     - [Executing Aggregations](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-aggregations.html)
 - **[Conclusion](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/getting-started-conclusion.html)**
 
-## Set up Elasticsearch
-- Installing Elasticsearch
-    - Install Elasticsearch with .zip or .tar.gz
-    - Install Elasticsearch with .zip on Windows
-    - Install Elasticsearch with Debian Package
-    - Install Elasticsearch with RPM
-    - Install Elasticsearch with Windows MSI Installer
-    - Install Elasticsearch with Docker
-- Configuring Elasticsearch
-    - Setting JVM options
-    - Secure settings
-    - Logging configuration
-- Important Elasticsearch configuration
-    - path.data and path.logs
-    - cluster.name
-    - node.name
-    - network.host
-    - Discovery settings
-    - Setting the heap size
-    - JVM heap dump path
-    - GC logging
-    - Temp directory
-    - JVM fatal error logs
-- Important System Configuration
-    - Configuring system settings
-    - Disable swapping
-    - File Descriptors
-    - Virtual memory
-    - Number of threads
-    - DNS cache settings
-    - JNA temporary directory not mounted with noexec
-- Bootstrap Checks
-    - Heap size check
-    - File descriptor check
-    - Memory lock check
-    - Maximum number of threads check
-    - Max file size check
-    - Maximum size virtual memory check
-    - Maximum map count check
-    - Client JVM check
-    - Use serial collector check
-    - System call filter check
-    - OnError and OnOutOfMemoryError checks
-    - Early-access check
-    - G1GC check
-    - All permission check
-- Starting Elasticsearch
-- Stopping Elasticsearch
-- Adding nodes to your cluster
-- Installing X-Pack
-- Set up X-Pack
-- Configuring monitoring
-    - Collecting monitoring data
-    - Collecting monitoring data with Metricbeat
-    - Configuring indices for monitoring
-    - Configuring a Tribe Node to Work with Monitoring
-    - Monitoring settings
-- Configuring security
-    - Encrypting communications in Elasticsearch
-    - Encrypting communications in an Elasticsearch Docker Container
-    - Enabling Cipher Suites for Stronger Encryption
-    - Separating node-to-node and client traffic
-    - Configuring an Active Directory realm
-    - Configuring a file realm
-    - Configuring an LDAP realm
-    - Configuring a native realm
-    - Configuring a PKI realm
-    - Configuring a SAML realm
-    - Configuring a Kerberos realm
-    - FIPS 140-2
-    - Security settings
-    - Security files
-    - Auditing Settings
-- Configuring X-Pack Java Clients
-- X-Pack Settings
-    - License Settings
-    - Machine learning settings
-    - Watcher Settings
-    - SQL Access Settings
-- Bootstrap Checks for X-Pack
+## [[1] Set up Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup.html)
+1. [Supported platforms](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup.html#supported-platforms)
+2. [Java (JVM) Version](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup.html#jvm-version)
+
+### [1-1. Installing Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html)
+1. [Hosted Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html#_hosted_elasticsearch)
+2. [Installing Elasticsearch Yourself](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html#_installing_elasticsearch_yourself)
+3. [Configuration Management Tools](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/install-elasticsearch.html#config-mgmt-tools)  
+
+- **[Install Elasticsearch with .zip or .tar.gz](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#setup-installation-daemon)**
+    - [Download and install the .zip package](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#install-zip)
+    - [Download and install the .tar.gz package](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#install-targz)
+    - <ins>Enable automatic creation of X-Pack indices</ins>
+    - [Running Elasticsearch from the command line](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-running)
+    - [Checking that Elasticsearch is running](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#_checking_that_elasticsearch_is_running)
+    - [Running as a daemon](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#setup-installation-daemon)
+    - [Configuring Elasticsearch on the command line](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-configuring)
+    - [Directory layout of .zip and .tar.gz archives](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#zip-targz-layout)
+    - [Next steps](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/zip-targz.html#_next_steps)
+- ~~**Install Elasticsearch with .zip on Windows**~~
+- ~~**Install Elasticsearch with Debian Package**~~
+- ~~**Install Elasticsearch with RPM**~~
+- ~~**Install Elasticsearch with Windows MSI Installer**~~
+- ~~**Install Elasticsearch with Docker**~~
+
+### [1-2. Configuring Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html)
+* [Config files location](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#config-files-location)
+* [Config file format](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_config_file_format)
+* [Environment variable substitution](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_environment_variable_substitution)
+* [Prompting for settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/settings.html#_prompting_for_settings) **`❗️Deprecated`**
+
+- **[Setting JVM options](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/jvm-options.html)**
+- **[Secure settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html)**
+    - [Creating the keystore](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#creating-keystore)
+    - [Listing settings in the keystore](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#list-settings)
+    - [Adding string settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#add-string-to-keystore)
+    - [Removing settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#remove-settings)
+    - [Reloadable secure settings](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/secure-settings.html#reloadable-secure-settings)
+- **[Logging configuration](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/logging.html)**
+    - [Configuring logging levels](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/logging.html#configuring-logging-levels)
+    - [Deprecation logging](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/logging.html#deprecation-logging)
+
+### [1-3. Important Elasticsearch configuration]
+- `path.data` and `path.logs`
+- `cluster.name`
+- `node.name`
+- `network.host`
+- Discovery settings
+- Setting the heap size
+- JVM heap dump path
+- GC logging
+- Temp directory
+- JVM fatal error logs
+
+### [1-4. Important System Configuration]
+- Configuring system settings
+- Disable swapping
+- File Descriptors
+- Virtual memory
+- Number of threads
+- DNS cache settings
+- JNA temporary directory not mounted with noexec
+
+### [1-5. Bootstrap Checks]
+- Heap size check
+- File descriptor check
+- Memory lock check
+- Maximum number of threads check
+- Max file size check
+- Maximum size virtual memory check
+- Maximum map count check
+- Client JVM check
+- Use serial collector check
+- System call filter check
+- OnError and OnOutOfMemoryError checks
+- Early-access check
+- G1GC check
+- All permission check
+
+### [1-6. Starting Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/starting-elasticsearch.html)
+1. [Archive packages (.tar.gz)](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/starting-elasticsearch.html#start-targz)
+2. ~~Archive packages (.zip)~~
+3. ~~Debian packages~~
+4. ~~Docker images~~
+5. ~~MSI packages~~
+6. ~~RPM packages~~
+
+### [1-7. Stopping Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/stopping-elasticsearch.html)
+- [Stopping on Fatal Errors](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/stopping-elasticsearch.html#_stopping_on_fatal_errors)
+
+### [1-8. Adding nodes to your cluster](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/add-elasticsearch-nodes.html)
+
+### [1-9. Installing X-Pack](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/installing-xpack-es.html)
+
+### [1-10. Set up X-Pack](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/setup-xpack.html)
+
+### [1-11. Configuring monitoring]
+- Collecting monitoring data
+- Collecting monitoring data with Metricbeat
+- Configuring indices for monitoring
+- Configuring a Tribe Node to Work with Monitoring
+- Monitoring settings
+
+### [1-12. Configuring security]
+- Encrypting communications in Elasticsearch
+- Encrypting communications in an Elasticsearch Docker Container
+- Enabling Cipher Suites for Stronger Encryption
+- Separating node-to-node and client traffic
+- Configuring an Active Directory realm
+- Configuring a file realm
+- Configuring an LDAP realm
+- Configuring a native realm
+- Configuring a PKI realm
+- Configuring a SAML realm
+- Configuring a Kerberos realm
+- FIPS 140-2
+- Security settings
+- Security files
+- Auditing Settings
+
+### [1-13. Configuring X-Pack Java Clients]
+
+### [1-14. X-Pack Settings]
+- License Settings
+- Machine learning settings
+- Watcher Settings
+- SQL Access Settings
+
+### [1-15. Bootstrap Checks for X-Pack]
 
 ## Upgrade Elasticsearch
 - Rolling upgrades
