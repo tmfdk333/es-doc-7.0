@@ -112,7 +112,100 @@ By default, each index in Elasticsearch is allocated one primary shard and one r
 With that out of the way, let’s get started with the fun part…  
 그 점을 벗어나서 재미있는 부분부터 시작해보자...
 
-### 1-2. Installation
+### [1-2. Installation](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html)
+
+> **Tip**  
+> You can skip having to install Elasticsearch by using our [hosted Elasticsearch Service](https://www.elastic.co/kr/cloud/elasticsearch-service) on Elastic Cloud. The Elasticsearch Service is available on both AWS and GCP. [Try out the Elasticsearch Service for free](https://www.elastic.co/kr/cloud/elasticsearch-service/signup).  
+> Elastic Cloud에 호스팅된 Elasticsearch 서비스를 사용하면 Elasticsearch를 설치하지 않아도 된다. Elasticsearch 서비스는 AWS와 GCP 모두에서 이용 가능하다. Elastic Search 서비스를 무료로 사용해 보십시오.
+
+> **Note**  
+> Elasticsearch includes a bundled version of [OpenJDK](http://openjdk.java.net/) from the JDK maintainers (GPLv2+CE). To use your own version of Java, see the [JVM version requirements](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#jvm-version)   
+> Elasticsearch는 JDK maintainers(GPLv2+CE)의 OpenJDK 번들 버전을 포함한다. 사용자 자신의 Java 버전을 사용하려면 JVM 버전 요구 사항을 참조하십시오.
+
+The binaries are available from [www.elastic.co/downloads](https://www.elastic.co/kr/downloads/) along with all the releases that have been made in the past. For each release, platform dependent archive versions are available for Windows, Linux and MacOS, as well as DEB and RPM packages for Linux, and MSI installation packages for Windows.  
+이 바이너리는 과거에 만들어진 모든 릴리스와 함께 www.elastic.co/downloads에서 이용할 수 있다. 각 릴리스에 대해 플랫폼 종속 아카이브 버전은 Windows, Linux 및 MacOS, Linux용 DEB 및 RPM 패키지 및 Windows용 MSI 설치 패키지에 사용할 수 있다.
+
+**Installation example on Linux**  
+For simplicity, let’s use the [tar](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/targz.html) file.
+단순성을 위해 tar 파일을 사용합시다.
+
+Let’s download the Elasticsearch 7.0.1 Linux tar as follows:  
+다음과 같이 Elasticsearch 7.0.1 Linux tar를 다운로드하십시오.
+
+```bash
+curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.0.1-linux-x86_64.tar.gz
+```
+
+Then extract it as follows:  
+그런 다음 다음과 같이 추출한다.
+
+```bash
+tar -xvf elasticsearch-7.0.1-linux-x86_64.tar.gz
+```
+
+It will then create a bunch of files and folders in your current directory. We then go into the bin directory as follows:  
+그러면 현재 디렉토리에 파일과 폴더 묶음이 만들어질 것이다. 그런 다음 다음과 같이 bin 디렉토리로 들어간다.
+
+```bash
+cd elasticsearch-7.0.1/bin
+```
+
+And now we are ready to start our node and single cluster:  
+이제 노드와 단일 클러스터를 시작할 준비가 완료됨:
+
+```
+./elasticsearch
+```
+
+~~**Installation example with MSI Windows Installer**~~ ⚠
+
+**Successfully running node**  
+If everything goes well with installation, you should see a bunch of messages that look like below:  
+모든 것이 설치와 잘 되면 다음과 같은 여러 메시지가 표시되어야 한다.
+
+```bash
+[2018-09-13T12:20:01,766][INFO ][o.e.e.NodeEnvironment    ] [localhost.localdomain] using [1] data paths, mounts [[/home (/dev/mapper/fedora-home)]], net usable_space [335.3gb], net total_space [410.3gb], types [ext4]
+[2018-09-13T12:20:01,772][INFO ][o.e.e.NodeEnvironment    ] [localhost.localdomain] heap size [990.7mb], compressed ordinary object pointers [true]
+[2018-09-13T12:20:01,774][INFO ][o.e.n.Node               ] [localhost.localdomain] node name [localhost.localdomain], node ID [B0aEHNagTiWx7SYj-l4NTw]
+[2018-09-13T12:20:01,775][INFO ][o.e.n.Node               ] [localhost.localdomain] version[7.0.1], pid[13030], build[oss/zip/77fc20e/2018-09-13T15:37:57.478402Z], OS[Linux/4.16.11-100.fc26.x86_64/amd64], JVM["Oracle Corporation"/OpenJDK 64-Bit Server VM/10/10+46]
+[2018-09-13T12:20:01,775][INFO ][o.e.n.Node               ] [localhost.localdomain] JVM arguments [-Xms1g, -Xmx1g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -XX:-OmitStackTraceInFastThrow, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Djava.io.tmpdir=/tmp/elasticsearch.LN1ctLCi, -XX:+HeapDumpOnOutOfMemoryError, -XX:HeapDumpPath=data, -XX:ErrorFile=logs/hs_err_pid%p.log, -Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,pid,tags:filecount=32,filesize=64m, -Djava.locale.providers=COMPAT, -XX:UseAVX=2, -Dio.netty.allocator.type=unpooled, -Des.path.home=/home/manybubbles/Workspaces/Elastic/master/elasticsearch/qa/unconfigured-node-name/build/cluster/integTestCluster node0/elasticsearch-7.0.0-alpha1-SNAPSHOT, -Des.path.conf=/home/manybubbles/Workspaces/Elastic/master/elasticsearch/qa/unconfigured-node-name/build/cluster/integTestCluster node0/elasticsearch-7.0.0-alpha1-SNAPSHOT/config, -Des.distribution.flavor=oss, -Des.distribution.type=zip]
+[2018-09-13T12:20:02,543][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [aggs-matrix-stats]
+[2018-09-13T12:20:02,543][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [analysis-common]
+[2018-09-13T12:20:02,543][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [ingest-common]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [lang-expression]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [lang-mustache]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [lang-painless]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [mapper-extras]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [parent-join]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [percolator]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [rank-eval]
+[2018-09-13T12:20:02,544][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [reindex]
+[2018-09-13T12:20:02,545][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [repository-url]
+[2018-09-13T12:20:02,545][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] loaded module [transport-netty4]
+[2018-09-13T12:20:02,545][INFO ][o.e.p.PluginsService     ] [localhost.localdomain] no plugins loaded
+[2018-09-13T12:20:04,657][INFO ][o.e.d.DiscoveryModule    ] [localhost.localdomain] using discovery type [zen]
+[2018-09-13T12:20:05,006][INFO ][o.e.n.Node               ] [localhost.localdomain] initialized
+[2018-09-13T12:20:05,007][INFO ][o.e.n.Node               ] [localhost.localdomain] starting ...
+[2018-09-13T12:20:05,202][INFO ][o.e.t.TransportService   ] [localhost.localdomain] publish_address {127.0.0.1:9300}, bound_addresses {[::1]:9300}, {127.0.0.1:9300}
+[2018-09-13T12:20:05,221][WARN ][o.e.b.BootstrapChecks    ] [localhost.localdomain] max file descriptors [4096] for elasticsearch process is too low, increase to at least [65535]
+[2018-09-13T12:20:05,221][WARN ][o.e.b.BootstrapChecks    ] [localhost.localdomain] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2018-09-13T12:20:08,384][INFO ][o.e.h.n.Netty4HttpServerTransport] [localhost.localdomain] publish_address {127.0.0.1:9200}, bound_addresses {[::1]:9200}, {127.0.0.1:9200}
+[2018-09-13T12:20:08,384][INFO ][o.e.n.Node               ] [localhost.localdomain] started
+```
+
+Without going too much into detail, we can see that our node named "6-bjhwl" (which will be a different set of characters in your case) has started and elected itself as a master in a single cluster. Don’t worry yet at the moment what master means. The main thing that is important here is that we have started one node within one cluster.  
+너무 자세히 설명하지 않아도, "6-bjhwl"(당신의 경우 다른 문자 집합이 될 것)이라는 이름의 우리의 노드가 시작되어 단일 클러스터에서 마스터로 선출되었음을 알 수 있다. 마스터의 뜻이 무슨 뜻인지 현재로서는 아직 걱정하지 마라. 여기서 중요한 것은 하나의 클러스터 내에서 하나의 노드를 시작했다는 것이다.
+
+As mentioned previously, we can override either the cluster or node name. This can be done from the command line when starting Elasticsearch as follows:  
+앞에서 언급한 바와 같이 클러스터 또는 노드 이름을 재정의할 수 있다. 이는 다음과 같이 Elasticsearch를 시작할 때 명령줄에서 수행할 수 있다.
+
+```bash
+./elasticsearch -Ecluster.name=my_cluster_name -Enode.name=my_node_name
+```
+
+Also note the line marked http with information about the HTTP address (192.168.8.112) and port (9200) that our node is reachable from. By default, Elasticsearch uses port 9200 to provide access to its REST API. This port is configurable if necessary.  
+또한 http로 표시된 행에 노드가 연결할 수 있는 HTTP 주소(192.168.8.112) 및 포트(9200)에 대한 정보를 기록하십시오. 기본적으로 Elasticsearch는 포트 9200을 사용하여 REST API에 대한 액세스를 제공한다. 이 포트는 필요한 경우 구성할 수 있다.
+
 ### 1-3. Exploring Your Cluster
 #### 1-3-1) Cluster Health
 #### 1-3-2) List All Indices
