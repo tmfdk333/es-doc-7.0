@@ -21,7 +21,97 @@ Here are a few sample use-cases that Elasticsearch could be used for:
 For the rest of this tutorial, you will be guided through the process of getting Elasticsearch up and running, taking a peek inside it, and performing basic operations like indexing, searching, and modifying your data. At the end of this tutorial, you should have a good idea of what Elasticsearch is, how it works, and hopefully be inspired to see how you can use it to either build sophisticated search applications or to mine intelligence from your data.  
 이 튜토리얼의 나머지 부분에 대해서는 Elasticsearch를 가동하고, 그 안을 들여다보고, 데이터 인덱싱, 검색, 수정과 같은 기본적인 작업을 수행하는 과정을 안내받을 것이다. 이 튜토리얼이 끝날 때, 여러분은 Elasticsearch가 무엇인지, 어떻게 작동하는지 잘 알고 있어야 하며, 어떻게 이것을 사용하여 정교한 검색 응용 프로그램을 구축하거나 데이터에서 지능을 채굴할 수 있는지에 대해 영감을 얻기를 바란다.
 
-### 1-1. Basic Concepts
+### [1-1. Basic Concepts](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html)
+
+There are a few concepts that are core to Elasticsearch. Understanding these concepts from the outset will tremendously help ease the learning process.  
+Elasticsearch의 핵심이 되는 몇 가지 개념이 있다. 이러한 개념을 처음부터 이해하는 것은 학습 과정을 용이하게 하는데 크게 도움이 될 것이다.
+
+**Near Realtime (NRT)**  
+Elasticsearch is a near-realtime search platform. What this means is there is a slight latency (normally one second) from the time you index a document until the time it becomes searchable.  
+Elasticsearch는 거의 실시간에 가까운 검색 플랫폼이다. 이것은 document를 index할 때부터 검색 가능해질 때까지 약간의 지연 시간(일반적으로 1초)이 있다는 것을 의미한다.
+
+**Cluster**  
+A cluster is a collection of one or more nodes (servers) that together holds your entire data and provides federated indexing and search capabilities across all nodes. A cluster is identified by a unique name which by default is "elasticsearch". This name is important because a node can only be part of a cluster if the node is set up to join the cluster by its name.  
+클러스터는 전체 데이터를 함께 보관하고 모든 노드에서 통합 인덱싱 및 검색 기능을 제공하는 하나 이상의 노드(서버)의 모음입니다. 클러스터는 기본적으로 "elasticsearch"인 고유한 이름으로 식별된다. 노드가 이름으로 클러스터에 가입하도록 설정된 경우에만 노드가 클러스터의 일부가 될 수 있기 때문에 이 이름은 중요하다.
+
+Make sure that you don’t reuse the same cluster names in different environments, otherwise you might end up with nodes joining the wrong cluster. For instance you could use `logging-dev`, `logging-stage`, and `logging-prod` for the development, staging, and production clusters.  
+다른 환경에서 동일한 클러스터 이름을 재사용하지 마십시오. 그렇지 않으면 노드가 잘못된 클러스터에 가입할 수 있습니다. 예를 들어 개발, 스테이징 및 프로덕션 클러스터에 `logging-dev`, `logging-stage` 및 `logging-prod`를 사용할 수 있다.
+
+Note that it is valid and perfectly fine to have a cluster with only a single node in it. Furthermore, you may also have multiple independent clusters each with its own unique cluster name.  
+단일 노드만 포함된 클러스터를 사용하는 것은 타당하고 완벽하다는 점에 유의하십시오. 또한 각각 고유한 클러스터 이름을 가진 독립 클러스터가 여러 개 있을 수 있다.
+
+**Node**  
+A node is a single server that is part of your cluster, stores your data, and participates in the cluster’s indexing and search capabilities. Just like a cluster, a node is identified by a name which by default is a random Universally Unique IDentifier (UUID) that is assigned to the node at startup. You can define any node name you want if you do not want the default. This name is important for administration purposes where you want to identify which servers in your network correspond to which nodes in your Elasticsearch cluster.  
+노드는 클러스터의 일부분이고 데이터를 저장하며 클러스터의 인덱싱 및 검색 기능에 참여하는 단일 서버입니다. 클러스터와 마찬가지로, 노드는 시작할 때 노드에 할당되는 임의 UUID(Universally Unique IDentifier)로 식별된다. 기본값을 원하지 않는 경우 원하는 노드 이름을 정의할 수 있다. 이 이름은 네트워크에서 Elasticsearch 클러스터의 노드에 해당하는 서버를 식별하려는 관리 목적으로 중요하다.
+
+A node can be configured to join a specific cluster by the cluster name. By default, each node is set up to join a cluster named `elasticsearch` which means that if you start up a number of nodes on your network and—assuming they can discover each other—they will all automatically form and join a single cluster named `elasticsearch`.  
+클러스터 이름으로 특정 클러스터에 가입하도록 노드를 구성할 수 있다. 기본적으로, 각 노드는 `elasticsearch`이라는 이름의 클러스터에 가입하도록 설정되며, 이는 네트워크에서 여러 노드를 시작하고 서로 검색할 수 있다고 가정할 때 모두 자동으로 `elasticsearch`이라는 단일 클러스터를 형성하고 결합한다는 것을 의미한다.
+
+In a single cluster, you can have as many nodes as you want. Furthermore, if there are no other Elasticsearch nodes currently running on your network, starting a single node will by default form a new single-node cluster named `elasticsearch`.    
+단일 클러스터에서 원하는 만큼의 노드를 가질 수 있다. 또한 현재 네트워크에서 실행 중인 다른 Elasticsearch 노드가 없는 경우, 기본적으로 단일 노드를 시작하면 `elasticsearch`이라는 새로운 단일 노드 클러스터가 형성된다.
+
+**Index**  
+An index is a collection of documents that have somewhat similar characteristics. For example, you can have an index for customer data, another index for a product catalog, and yet another index for order data. An index is identified by a name (that must be all lowercase) and this name is used to refer to the index when performing indexing, search, update, and delete operations against the documents in it.    
+index는 다소 유사한 특성을 가진 document의 집합이다. 예를 들어 고객 데이터에 대한 index, 제품 카탈로그에 대한 다른 index 및 주문 데이터에 대한 index를 가질 수 있다. index는 이름(모두 소문자여야 함)으로 식별되며, 이 이름은 해당 문서에 대한 indexing, 검색, 업데이트 및 삭제 작업을 수행할 때 index를 참조하는 데 사용된다.
+
+In a single cluster, you can define as many indexes as you want.  
+단일 클러스터에서 원하는 만큼의 index를 정의할 수 있다.
+
+**Type** `❗Deprecated in 6.0.0.❗`  
+A type used to be a logical category/partition of your index to allow you to store different types of documents in the same index, e.g. one type for users, another type for blog posts. It is no longer possible to create multiple types in an index, and the whole concept of types will be removed in a later version. See [Removal of mapping types](https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html) for more.  
+다른 type의 document를 동일한 index에 저장할 수 있도록 하기 위해 index의 논리 카테고리/파티션으로 사용되는 type (예: 사용자를 위한 type, 블로그 게시물의 type) 더 이상 index에서 여러 type을 만들 수 없으며, type에 대한 전체 개념은 이후 버전에서 제거될 것이다. 자세한 내용은 매핑 type 제거를 참조하십시오.
+
+**Document**  
+A document is a basic unit of information that can be indexed. For example, you can have a document for a single customer, another document for a single product, and yet another for a single order. This document is expressed in [JSON](http://json.org/) (JavaScript Object Notation) which is a ubiquitous internet data interchange format. Within an index, you can store as many documents as you want.  
+document는 index 할 수 있는 정보의 기본 단위다. 예를 들어 단일 고객을 위한 document, 단일 제품을 위한 다른 document, 단일 주문을 위한 다른 document를 가질 수 있다. 이 document는 유비쿼터스 인터넷 데이터 교환 형식인 [JSON](http://json.org/) (JavaScript Object Notation)으로 표현되어 있다. index 내에서 원하는 만큼의 document를 저장할 수 있다.
+
+**Shards & Replicas**  
+An index can potentially store a large amount of data that can exceed the hardware limits of a single node. For example, a single index of a billion documents taking up 1TB of disk space may not fit on the disk of a single node or may be too slow to serve search requests from a single node alone.  
+index는 단일 노드의 하드웨어 한계를 초과할 수 있는 대량의 데이터를 저장할 수 있다. 예를 들어 1TB의 디스크 공간을 차지하는 10억 개의 문서의 단일 index는 단일 노드의 디스크에 맞지 않거나 단일 노드에서만 검색 요청을 처리하기에는 너무 느릴 수 있다.
+
+To solve this problem, Elasticsearch provides the ability to subdivide your index into multiple pieces called shards. When you create an index, you can simply define the number of shards that you want. Each shard is in itself a fully-functional and independent "index" that can be hosted on any node in the cluster.  
+이 문제를 해결하기 위해, Elasticsearch는 당신의 index를 shard라고 불리는 여러 조각으로 세분화하는 기능을 제공한다. index를 작성할 때 원하는 shard의 개수를 간단히 정의할 수 있다. 각 shard는 그 자체로 클러스터의 모든 노드에서 호스팅할 수 있는 완전히 기능하고 독립적인 "index"이다.
+
+Sharding is important for two primary reasons:  
+Sharding은 두 가지 주요 이유로 중요하다.
+
+- It allows you to horizontally split/scale your content volume
+- 콘텐츠 볼륨을 수평으로 분할/스케일링할 수 있음
+
++ It allows you to distribute and parallelize operations across shards (potentially on multiple nodes) thus increasing performance/throughput
++ 여러 노드에 걸쳐 운영 방식을 분산 및 병렬화할 수 있으므로 성능/처리 성능 향상
+
+The mechanics of how a shard is distributed and also how its documents are aggregated back into search requests are completely managed by Elasticsearch and is transparent to you as the user.  
+shard가 배포되는 방법과 그 document가 검색 요청으로 다시 집계되는 방법은 Elasticsearch에 의해 완전히 관리되며 사용자로서 사용자에게 투명하다.
+
+In a network/cloud environment where failures can be expected anytime, it is very useful and highly recommended to have a failover mechanism in case a shard/node somehow goes offline or disappears for whatever reason. To this end, Elasticsearch allows you to make one or more copies of your index’s shards into what are called replica shards, or replicas for short.  
+언제든지 장애를 예상할 수 있는 네트워크/클라우드 환경에서는 shard/노드가 어떻게든 오프라인 상태가 되거나 어떤 이유로든 사라질 경우 페일오버 메커니즘을 갖는 것이 매우 유용하고 매우 권장된다. 이를 위해, Elasticsearch를 사용하면 index의 shard들을 replica shards 또는 줄여서 replicas라고 하는 것으로 복사할 수 있다.
+
+Replication is important for two primary reasons:  
+복제는 두 가지 주요 이유로 중요하다.
+
+- It provides high availability in case a shard/node fails. For this reason, it is important to note that a replica shard is never allocated on the same node as the original/primary shard that it was copied from.
+- shard/노드가 고장 날 경우 고가용성을 제공한다. 이 때문에 replica shard는 복사된 original/primary shard와 동일한 노드에 할당되지 않는다는 점에 유의해야 한다.
+
++ It allows you to scale out your search volume/throughput since searches can be executed on all replicas in parallel.
++ 검색을 모든 replicas에서 병렬로 실행할 수 있으므로 검색 볼륨/처리량을 확장할 수 있다.
+
+To summarize, each index can be split into multiple shards. An index can also be replicated zero (meaning no replicas) or more times. Once replicated, each index will have primary shards (the original shards that were replicated from) and replica shards (the copies of the primary shards).  
+요약하자면, 각 index를 여러 개의 shard로 나눌 수 있다. index는 0번(replica 없음) 이상 복제할 수도 있다. 일단 복제되면, 각 index는 primary shards(복제된 원래 shard)와 replica shards(primary shard의 복사본)를 가질 것이다.
+
+The number of shards and replicas can be defined per index at the time the index is created. After the index is created, you may also change the number of replicas dynamically anytime. You can change the number of shards for an existing index using the [`_shrink`](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/indices-shrink-index.html) and [`_split`](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/indices-split-index.html) APIs, however this is not a trivial task and pre-planning for the correct number of shards is the optimal approach.  
+index가 작성될 때 index별로 shard와 replica의 수를 정의할 수 있다. index가 생성된 후에는 언제든지 동적으로 replica 수를 변경할 수도 있다. `_shrink` 및 `_split` API를 사용하여 기존 index의 shard 수를 변경할 수 있지만, 이는 사소한 작업이 아니며 정확한 shard 수에 대한 사전 계획이 최적의 접근방식이다.
+
+By default, each index in Elasticsearch is allocated one primary shard and one replica which means that if you have at least two nodes in your cluster, your index will have one primary shard and another replica shard (one complete replica) for a total of two shards per index.  
+기본적으로 Elasticsearch의 각 index는 하나의 기본 shard와 하나의 replica가 할당되는데, 이는 클러스터에 적어도 두 개 이상의 노드가 있을 경우 index는 index당 총 두 개의 shard를 위해 하나의 primary shard와 다른 replica shard(하나의 완전한 replica)를 가질 것이다.
+
+> **Note**  
+> Each Elasticsearch shard is a Lucene index. There is a maximum number of documents you can have in a single Lucene index. As of [LUCENE-5843](https://issues.apache.org/jira/browse/LUCENE-5843), the limit is 2,147,483,519 (= Integer.MAX_VALUE - 128) documents. You can monitor shard sizes using the [_cat/shards](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/cat-shards.html) API.  
+> 각각의 Elasticsearch 샤드는 Lucene index이다. 단일 Lucene index에서 가질 수 있는 document의 최대 개수가 있다. LUCENE-5843 기준으로 한계는 2,147,483,519(= Integer.MAX_VALUE - 128) document 이다. _cat/shards API를 사용하여 샤드 크기를 모니터링할 수 있다.
+
+With that out of the way, let’s get started with the fun part…  
+그 점을 벗어나서 재미있는 부분부터 시작해보자...
+
 ### 1-2. Installation
 ### 1-3. Exploring Your Cluster
 #### 1-3-1) Cluster Health
