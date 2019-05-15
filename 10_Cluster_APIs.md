@@ -163,7 +163,104 @@ The following is an example of getting the cluster health at the `shards` level:
 GET /_cluster/health/twitter?level=shards
 ```
 
-### 10-2. Cluster State
+### [10-2. Cluster State](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/cluster-state.html)
+
+The cluster state API allows access to metadata representing the state of the whole cluster. This includes information such as  
+클러스터 상태 API를 사용하면 전체 클러스터의 상태를 나타내는 메타데이터에 액세스할 수 있다. 여기에는 다음과 같은 정보가 포함된다.
+
+- the set of nodes in the cluster
+- 클러스터의 노드 세트
+
++ all cluster-level settings
++ 모든 클러스터 수준 설정
+
+- information about the indices in the cluster, including their mappings and settings
+- 클러스터의 인덱스에 대한 정보(매핑 및 설정)
+
++ the locations of all the shards in the cluster
++ 클러스터에서 모든 shard의 위치
+
+The response is an internal representation of the cluster state and its format may change from version to version. If possible, you should obtain any information from the cluster state using the other, more stable, [cluster APIs](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/cluster.html).    
+응답은 클러스터 상태에 대한 내부 표현이며 그 형식은 버전에서 버전으로 변경될 수 있다. 가능한 경우, 클러스터 API에서 더 안정적인 다른 것을 사용하여 클러스터의 상태에 대해 어떤 정보라도 얻어야 한다.
+
+```bash
+GET /_cluster/state
+```
+
+The response provides the cluster state itself, which can be filtered to only retrieve the parts of interest as described below.  
+응답은 클러스터 상태 자체를 제공하며, 이 상태 자체는 아래에서 설명하는 대로 관심 부분만 검색하도록 필터링할 수 있다.
+
+The cluster’s `cluster_uuid` is also returned as part of the top-level response, in addition to the `metadata` section. `📌Added in 6.4.0`  
+클러스터의 `cluster_uuid`는 `metadata` 섹션 이외에도 응답의 최상위중 일부분으로 반환된다. 
+
+> **Note**  
+> While the cluster is still forming, it is possible for the `cluster_uuid` to be `_na_` as well as the cluster state’s version to be `-1`.  
+> 클러스터가 계속 형성되는 동안, `cluster_uuid`는 `_na_`일 수 있으며 클러스터 상태의 버전은 `-1`이 될 수 있습니다.
+
+By default, the cluster state request is routed to the master node, to ensure that the latest cluster state is returned. For debugging purposes, you can retrieve the cluster state local to a particular node by adding `local=true` to the query string.  
+기본적으로 클러스터 상태 요청은 마스터 노드로 라우팅되어 최신 클러스터 상태가 반환되는지 확인합한다. 디버깅을 위해 쿼리 문자열에 `local=true`를 추가하여 특정 노드의 로컬 클러스터 상태를 검색 할 수 있습니다.
+
+**Response Filters**  
+The cluster state contains information about all the indices in the cluster, including their mappings, as well as templates and other metadata. This means it can sometimes be quite large. To avoid the need to process all this information you can request only the part of the cluster state that you need:  
+클러스터 상태는 템플릿 및 기타 메타데이터뿐만 아니라 매핑을 포함하여 클러스터의 모든 인덱스에 대한 정보를 포함하고 있다. 이것은 때때로 꽤 클 수 있다는 것을 의미한다. 이 모든 정보를 처리할 필요가 없도록 필요한 클러스터 상태의 부분만 요청하십시오.
+
+```bash
+GET /_cluster/state/{metrics}
+GET /_cluster/state/{metrics}/{indices}
+```
+
+- `{metrics}` is a comma-separated list of the following options.
+- `{metrics}`는 다음 옵션의 쉼표로 구분된 목록이다.
+
++ `version`
+     + Shows the cluster state version.
+     + 클러스터 상태 버전을 표시.
+
+- `master_node`
+     - Shows the elected `master_node` part of the response
+     - 응답의 선택된 `master_node` 부분을 표시
+     
++ `nodes`
+    + Shows the `nodes` part of the response
+    + 응답의 `nodes` 부분을 표시.
+
+- `routing_table`
+    - Shows the `routing_table` part of the response. If you supply a comma separated list of indices, the returned output will only contain the routing table for these indices.
+    - 응답의 `routing_table` 부분을 표시. 쉼표로 구분된 index 목록을 제공하는 경우 반환된 결과에는 이러한 index에 대한 라우팅 테이블만 포함된다.
+    
++ `metadata`
+    + Shows the `metadata` part of the response. If you supply a comma separated list of indices, the returned output will only contain metadata for these indices.
+    + 응답의 `metadata` 부분을 표시. 쉼표로 구분된 index 목록을 제공하는 경우 반환된 결과에는 이러한 index 대한 메타데이터만 포함된다.
+
+- `blocks`
+    - Shows the `blocks` part of the response.
+    - 응답의 `blocks` 부분을 표시.
+    
++ `_all`
+    + Shows all metrics.
+    + 모든 metrics를 표시.
+    
+The following example returns only `metadata` and `routing_table` data for the `foo` and `bar` indices:  
+다음 예제에서는 `foo` 및 `bar` index에 대한 메타데이터 및 라우팅_테이블 데이터만 반환한다.
+
+```bash
+GET /_cluster/state/metadata,routing_table/foo,bar
+```
+
+The next example returns everything for the `foo` and `bar` indices:  
+다음 예제에서는 `foo` 및 `bar` index에 대한 모든 것을 반환한다.
+
+```bash
+GET /_cluster/state/_all/foo,bar
+```
+
+Finally, this example return only the `blocks` metadata:  
+마지막으로, 이 예는 블록 메타데이터만 반환한다.
+
+```bash
+GET /_cluster/state/blocks
+```
+
 ### 10-3. Cluster Stats
 ### 10-4. Pending cluster tasks
 ### 10-5. Cluster Reroute
