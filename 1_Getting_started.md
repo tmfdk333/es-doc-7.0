@@ -536,7 +536,18 @@ In the above example, `ctx._source` refers to the current source document that i
 Elasticsearch provides the ability to update multiple documents given a query condition (like an SQL UPDATE-WHERE statement). See [docs-update-by-query API](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/docs-update-by-query.html)  
 Elasticsearch는 쿼리 조건(SQL의 UPDATE-WHERE 구문 같이)이 주어진 여러 document를 업데이트할 수 있는 기능을 제공한다. Docs-update by Query API 참조
 
-#### 1-4-2) Deleting Documents
+#### [1-4-2) Deleting Documents](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-delete-documents.html)
+
+Deleting a document is fairly straightforward. This example shows how to delete our previous customer with the ID of 2:  
+문서를 삭제하는 것은 매우 간단하다. 이 예에서는 ID가 2인 이전 고객을 삭제하는 방법을 보여 준다.
+
+```bash
+DELETE /customer/_doc/2?pretty
+```
+
+See the [_delete_by_query API](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/docs-delete-by-query.html) to delete all documents matching a specific query. It is worth noting that it is much more efficient to delete a whole index instead of deleting all documents with the Delete By Query API.  
+특정 쿼리와 일치하는 모든 document를 삭제하려면 _delete_by_query API를 참조하십시오. 삭제 Query API로 모든 document를 삭제하는 대신 전체 인덱스를 삭제하는 것이 훨씬 효율적이라는 점에 유의할 필요가 있다.
+
 #### 1-4-3) Batch Processing
 ### 1-5. Exploring Your Data
 #### 1-5-1) The Search API
