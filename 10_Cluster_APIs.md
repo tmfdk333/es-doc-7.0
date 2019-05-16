@@ -475,7 +475,279 @@ GET /_cluster/stats/nodes/node1,node*,master:false
 ### 10-6. Cluster Update Settings
 ### 10-7. Cluster Get Settings
 ### 10-8. Nodes Stats
-### 10-9. Nodes Info
+
+### [10-9. Nodes Info](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/cluster-nodes-info.html)
+
+The cluster nodes info API allows to retrieve one or more (or all) of the cluster nodes information.  
+클러스터 노드 정보 API를 사용하면 클러스터 노드 정보를 하나 이상(또는 모두) 검색할 수 있다.
+
+```bash
+GET /_nodes
+GET /_nodes/nodeId1,nodeId2
+```
+
+The first command retrieves information of all the nodes in the cluster. The second command selectively retrieves nodes information of only `nodeId1` and `nodeId2`. All the nodes selective options are explained [here](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/cluster.html#cluster-nodes).  
+첫 번째 명령은 클러스터의 모든 노드에 대한 정보를 검색한다. 두 번째 명령은 nodeId1과 nodeId2의 노드 정보만 선택적으로 검색한다. 모든 노드 선택 옵션이 여기에 설명되어 있다.
+
+By default, it just returns all attributes and core settings for a node:  
+기본적으로 노드에 대한 모든 특성 및 코어 설정만 반환한다.
+
+- `build_hash`
+    - Short hash of the last git commit in this release.
+    - 이 릴리스에서 마지막 git 커밋의 짧은 해시.
+
++ `host`
+    + The node’s host name.
+    + 노드의 호스트 이름.
+
+- `ip`
+    - The node’s IP address.
+    - 노드의 IP 주소.
+
++ `name`
+    + The node’s name.
+    + 노드의 이름.
+
+- `total_indexing_buffer`
+    - Total heap allowed to be used to hold recently indexed documents before they must be written to disk. This size is a shared pool across all shards on this node, and is controlled by [Indexing Buffer settings](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/indexing-buffer.html).
+    - 디스크에 쓰기 전에 최근에 인덱싱된 문서를 보관하는 데 사용할 수 있는 총 힙. 이 크기는 이 노드의 모든 샤드에 걸쳐 있는 공유 풀이며 인덱싱 버퍼 설정에 의해 제어된다.
+
++ `total_indexing_buffer_in_bytes`
+    + Same as total_indexing_buffer, but expressed in bytes.
+    + `total_indexing_buffer`와 같으나 바이트로 표시된다.
+
+- `transport_address`
+    - Host and port where transport HTTP connections are accepted.
+    - 전송 HTTP 연결이 허용되는 호스트 및 포트.
+
++ `version`
+    + Elasticsearch version running on this node.
+    + 이 노드에서 실행 중인 Elasticsearch 버전.
+    
+It also allows to get only information on `settings`, `os`, `process`, `jvm`, `thread_pool`, `transport`, `http`, `plugins`, `ingest` and `indices`:  
+이것은 또한 `settings`, `os`, `process`, `jvm`, `thread_pool`, `transport`, `http`, `plugins`, `ingest` 및 `indices`에 대한 정보만 얻을 수 있다.
+
+```bash
+# return just process
+GET /_nodes/process
+
+# same as above
+GET /_nodes/_all/process
+
+# return just jvm and process of only nodeId1 and nodeId2
+GET /_nodes/nodeId1,nodeId2/jvm,process
+
+# same as above
+GET /_nodes/nodeId1,nodeId2/info/jvm,process
+
+# return all the information of only nodeId1 and nodeId2
+GET /_nodes/nodeId1,nodeId2/_all
+```
+
+The `_all` flag can be set to return all the information - or you can simply omit it.  
+모든 정보를 반환하도록 `_all` 플래그를 설정하거나 생략할 수 있다.
+
+**Operating System information**
+
+The `os` flag can be set to retrieve information that concern the operating system:    
+운영 체제에 관련된 정보를 검색하도록 `os` 플래그를 설정할 수 있다.
+
+- `os.refresh_interval_in_millis`
+    - Refresh interval for the OS statistics
+    - OS 통계의 새로 고침 간격
+
++ `os.name`
+    + Name of the operating system (ex: Linux, Windows, Mac OS X)
+    + 운영 체제 이름(예: Linux, Windows, Mac OS X)
+
+- `os.arch`
+    - Name of the JVM architecture (ex: amd64, x86)
+    - JVM 아키텍처의 이름(예: amd64, x86)
+
++ `os.version`
+    + Version of the operating system
+    + 운영 체제 버전
+
+- `os.available_processors`
+    - Number of processors available to the Java virtual machine
+    - Java 가상 시스템에서 사용할 수 있는 프로세서 수
+
++ `os.allocated_processors`
+    + The number of processors actually used to calculate thread pool size. This number can be set with the processors setting of a node and defaults to the number of `processors` reported by the OS. In both cases this number will never be larger than 32.
+    + 실제로 스레드 풀 크기를 계산하는 데 사용되는 프로세서 수. 이 숫자는 노드의 `processors` 설정으로 설정할 수 있으며, OS에서 보고하는 프로세서 수로 기본 설정된다. 두 경우 모두 이 숫자는 32보다 크지 않을 것이다.
+
+**Process information**
+
+The `process` flag can be set to retrieve information that concern the current running process:  
+`process` 플래그는 현재 실행 중인 프로세스와 관련된 정보를 검색하도록 설정할 수 있다.
+
+- `process.refresh_interval_in_millis`
+    - Refresh interval for the process statistics
+    - 프로세스 통계의 새로 고침 간격
+
++ `process.id`
+    + Process identifier (PID)
+    + 프로세스 식별자 (PID)
+
+- `process.mlockall`
+    - Indicates if the process address space has been successfully locked in memory
+    - 프로세스 주소 공간이 메모리에 성공적으로 잠겼는지 여부를 나타냄
+
+**Plugins information**
+
+`plugins` - if set, the result will contain details about the installed plugins and modules per node:  
+`plugins` - 설정된 경우 결과는 설치된 플러그인과 노드당 모듈에 대한 세부 정보를 포함한다.
+
+```bash
+GET /_nodes/plugins
+```
+
+The result will look similar to:  
+결과는 다음과 유사하게 보일 것이다.
+
+```bash
+{
+  "_nodes": ...
+  "cluster_name": "elasticsearch",
+  "nodes": {
+    "USpTGYaBSIKbgSUJR2Z9lg": {
+      "name": "node-0",
+      "transport_address": "192.168.17:9300",
+      "host": "node-0.elastic.co",
+      "ip": "192.168.17",
+      "version": "{version}",
+      "build_flavor": "{build_flavor}",
+      "build_type": "{build_type}",
+      "build_hash": "587409e",
+      "roles": [
+        "master",
+        "data",
+        "ingest"
+      ],
+      "attributes": {},
+      "plugins": [
+        {
+          "name": "analysis-icu",
+          "version": "{version}",
+          "description": "The ICU Analysis plugin integrates Lucene ICU module into elasticsearch, adding ICU relates analysis components.",
+          "classname": "org.elasticsearch.plugin.analysis.icu.AnalysisICUPlugin",
+          "has_native_controller": false
+        }
+      ],
+      "modules": [
+        {
+          "name": "lang-painless",
+          "version": "{version}",
+          "description": "An easy, safe and fast scripting language for Elasticsearch",
+          "classname": "org.elasticsearch.painless.PainlessPlugin",
+          "has_native_controller": false
+        }
+      ]
+    }
+  }
+}
+```
+
+The following information are available for each plugin and module:  
+각 플러그인과 모듈에 대해 다음 정보를 사용할 수 있다.
+
+- `name`: plugin name
+- `name`: 플러그인 이름
+
++ `version`: version of Elasticsearch the plugin was built for
++ `version`: 플러그인을 위해 구축된 Elasticsearch 버전
+
+- `description`: short description of the plugin’s purpose
+- `description`: 플러그인에 대한 간단한 설명
+
++ `classname`: fully-qualified class name of the plugin’s entry point
++ `classname`: 플러그인 진입점의 정규화된 클래스 이름
+
+- `has_native_controller`: whether or not the plugin has a native controller process
+- `has_native_controller`: 플러그인에 네이티브 컨트롤러 프로세스가 있는지 여부
+
+**Ingest information**
+
+`ingest` - if set, the result will contain details about the available processors per node:  
+`ingest` - 설정된 경우 결과는 노드당 사용 가능한 프로세서에 대한 세부 정보를 포함한다.
+
+The result will look similar to:  
+결과는 다음과 유사하게 보일 것이다.
+
+```bash
+{
+  "_nodes": ...
+  "cluster_name": "elasticsearch",
+  "nodes": {
+    "USpTGYaBSIKbgSUJR2Z9lg": {
+      "name": "node-0",
+      "transport_address": "192.168.17:9300",
+      "host": "node-0.elastic.co",
+      "ip": "192.168.17",
+      "version": "{version}",
+      "build_flavor": "{build_flavor}",
+      "build_type": "{build_type}",
+      "build_hash": "587409e",
+      "roles": [],
+      "attributes": {},
+      "ingest": {
+        "processors": [
+          {
+            "type": "date"
+          },
+          {
+            "type": "uppercase"
+          },
+          {
+            "type": "set"
+          },
+          {
+            "type": "lowercase"
+          },
+          {
+            "type": "gsub"
+          },
+          {
+            "type": "convert"
+          },
+          {
+            "type": "remove"
+          },
+          {
+            "type": "fail"
+          },
+          {
+            "type": "foreach"
+          },
+          {
+            "type": "split"
+          },
+          {
+            "type": "trim"
+          },
+          {
+            "type": "rename"
+          },
+          {
+            "type": "join"
+          },
+          {
+            "type": "append"
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+The following information are available for each ingest processor:  
+각 수집 프로세서에 대해 다음 정보를 사용할 수 있다.
+
+- `type`: the processor type
+- `type`: 프로세서 타입
+
+
 ### 10-10. Nodes Feature Usage
 ### 10-11. Remote Cluster Info
 ### 10-12. Task Management API
