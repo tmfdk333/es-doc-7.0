@@ -285,7 +285,25 @@ ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master
 Here, we can see our one node named "PB2SGZY", which is the single node that is currently in our cluster.  
 여기서는 현재 클러스터에 있는 단일 노드인 "PB2SGZY"라는 이름의 노드를 볼 수 있다.
 
-#### 1-3-2) List All Indices
+#### [1-3-2) List All Indices](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-list-indices.html)
+
+Now let’s take a peek at our indices:  
+이제 우리의 index를 살펴보자.
+
+```bash
+GET /_cat/indices?v
+```
+
+And the response:  
+그리고 응답:
+
+```bash
+health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
+```
+
+Which simply means we have no indices yet in the cluster.  
+이것 간단히 말해서 우리가 아직 클러스터에 index를 가지고 있지 않다는 것을 의미한다.
+
 #### 1-3-3) Create an Index
 #### 1-3-4) Index and Query a Document
 #### 1-3-5) Delete an Index
