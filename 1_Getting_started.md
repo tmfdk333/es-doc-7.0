@@ -548,7 +548,38 @@ DELETE /customer/_doc/2?pretty
 See the [_delete_by_query API](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/docs-delete-by-query.html) to delete all documents matching a specific query. It is worth noting that it is much more efficient to delete a whole index instead of deleting all documents with the Delete By Query API.  
 특정 쿼리와 일치하는 모든 document를 삭제하려면 _delete_by_query API를 참조하십시오. 삭제 Query API로 모든 document를 삭제하는 대신 전체 인덱스를 삭제하는 것이 훨씬 효율적이라는 점에 유의할 필요가 있다.
 
-#### 1-4-3) Batch Processing
+#### [1-4-3) Batch Processing](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-batch-processing.html)
+
+In addition to being able to index, update, and delete individual documents, Elasticsearch also provides the ability to perform any of the above operations in batches using the [`_bulk` API](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/docs-bulk.html). This functionality is important in that it provides a very efficient mechanism to do multiple operations as fast as possible with as few network roundtrips as possible.  
+Elasticsearch는 개별 문서를 index, update 및 delete할 수 있을 뿐만 아니라, 위의 작업을 `_bulk` API를 사용하여 일괄적으로 수행할 수 있는 기능도 제공한다. 이 기능은 가능한 한 적은 수의 네트워크 라운드 트립으로 가능한 한 빨리 다중 작동을 수행하는 매우 효율적인 메커니즘을 제공한다는 점에서 중요하다.  
+
+As a quick example, the following call indexes two documents (ID 1 - John Doe and ID 2 - Jane Doe) in one bulk operation:  
+간단한 예로, 다음 호출은 두 개의 document(ID 1 - John Doe 및 ID 2 - Jane Doe)를 하나의 bulk operation으로 index한다.
+
+```bash
+POST /customer/_bulk?pretty
+{"index":{"_id":"1"}}
+{"name": "John Doe" }
+{"index":{"_id":"2"}}
+{"name": "Jane Doe" }
+```
+
+This example updates the first document (ID of 1) and then deletes the second document (ID of 2) in one bulk operation:  
+이 예에서는 첫 번째 document(ID 1)를 업데이트한 후 두 번째 document(ID 2)를 한 번의 bulk operation으로 삭제한다.   
+
+```bash
+POST /customer/_bulk?pretty
+{"update":{"_id":"1"}}
+{"doc": { "name": "John Doe becomes Jane Doe" } }
+{"delete":{"_id":"2"}}
+```
+
+Note above that for the delete action, there is no corresponding source document after it since deletes only require the ID of the document to be deleted.    
+위의 삭제 동작에서는 삭제할 문서의 ID만 삭제하면 되므로, 원본 문서가 없다는 점에 유의하십시오. 
+
+The Bulk API does not fail due to failures in one of the actions. If a single action fails for whatever reason, it will continue to process the remainder of the actions after it. When the bulk API returns, it will provide a status for each action (in the same order it was sent in) so that you can check if a specific action failed or not.  
+Bulk API는 작업 중 하나의 실패로 인해 실패하지 않는다. 어떤 이유로든 하나의 동작이 실패하면, 그 이후에 계속 동작을 다시 처리하게 될 것이다. Bulk API가 돌아오면, 특정 동작의 실패 여부를 확인할 수 있도록 각 동작에 대한 상태(보낸 순서와 동일)를 제공한다.    
+
 ### 1-5. Exploring Your Data
 #### 1-5-1) The Search API
 #### 1-5-2) Introducing the Query Language
