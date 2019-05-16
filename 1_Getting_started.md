@@ -580,7 +580,53 @@ Note above that for the delete action, there is no corresponding source document
 The Bulk API does not fail due to failures in one of the actions. If a single action fails for whatever reason, it will continue to process the remainder of the actions after it. When the bulk API returns, it will provide a status for each action (in the same order it was sent in) so that you can check if a specific action failed or not.  
 Bulk API는 작업 중 하나의 실패로 인해 실패하지 않는다. 어떤 이유로든 하나의 동작이 실패하면, 그 이후에 계속 동작을 다시 처리하게 될 것이다. Bulk API가 돌아오면, 특정 동작의 실패 여부를 확인할 수 있도록 각 동작에 대한 상태(보낸 순서와 동일)를 제공한다.    
 
-### 1-5. Exploring Your Data
+### [1-5. Exploring Your Data](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-explore-data.html)
+
+**Sample Dataset**
+
+Now that we’ve gotten a glimpse of the basics, let’s try to work on a more realistic dataset. I’ve prepared a sample of fictitious JSON documents of customer bank account information. Each document has the following schema:  
+이제 기본을 엿볼 수 있게 되었으니, 좀 더 현실적인 데이터셋을 연구해 봅시다. 고객 은행 계좌 정보에 대한 가상 JSON 문서의 샘플을 준비했다. 각 문서에는 다음과 같은 스키마가 있다.
+
+```bash
+{
+    "account_number": 0,
+    "balance": 16623,
+    "firstname": "Bradshaw",
+    "lastname": "Mckenzie",
+    "age": 29,
+    "gender": "F",
+    "address": "244 Columbus Place",
+    "employer": "Euron",
+    "email": "bradshawmckenzie@euron.com",
+    "city": "Hobucken",
+    "state": "CO"
+}
+```
+
+For the curious, this data was generated using [www.json-generator.com/](https://www.json-generator.com/), so please ignore the actual values and semantics of the data as these are all randomly generated.  
+궁금하신 분들을 위해, 이 데이터는 www.json-generator.com/을 사용하여 생성된 데이터이므로 실제 값과 자료의 의미는 무작위로 생성되므로 무시하십시오.
+
+**Loading the Sample Dataset**
+
+You can download the sample dataset (accounts.json) from [here](https://raw.githubusercontent.com/elastic/elasticsearch/master/docs/src/test/resources/accounts.json). Extract it to our current directory and let’s load it into our cluster as follows:  
+여기에서 샘플 데이터 세트(accounts.json)를 다운로드할 수 있다. 현재 디렉토리로 추출한 후 다음과 같이 클러스터에 로드해 봅시다.
+
+```bash
+curl -H "Content-Type: application/json" -XPOST "localhost:9200/bank/_bulk?pretty&refresh" --data-binary "@accounts.json"
+curl "localhost:9200/_cat/indices?v"
+```
+
+And the response:  
+그리고 응답:
+
+```bash
+health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   bank  l7sSYV2cQXmu6_4rJWVIww   5   1       1000            0    128.6kb        128.6kb
+```
+
+Which means that we just successfully bulk indexed 1000 documents into the bank index.  
+그것은 우리가 성공적으로 1000개의 문서를 bank index로 bulk index 했다는 것을 의미한다.
+
 #### 1-5-1) The Search API
 #### 1-5-2) Introducing the Query Language
 #### 1-5-3) Executing Searches
