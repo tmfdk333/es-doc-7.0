@@ -495,7 +495,47 @@ POST /customer/_doc?pretty
 Note that in the above case, we are using the POST verb instead of PUT since we didn’t specify an ID.  
 위의 경우 특정 ID를 지정하지 않았기 때문에 PUT 대신 POST 동사를 사용하고 있다는 점에 유의한다.
 
-#### 1-4-1) Updating Documents
+#### [1-4-1) Updating Documents](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-update-documents.html)
+
+In addition to being able to index and replace documents, we can also update documents. Note though that Elasticsearch does not actually do in-place updates under the hood. Whenever we do an update, Elasticsearch deletes the old document and then indexes a new document with the update applied to it in one shot.  
+추가적으로 document를 index하고 replace할 수 있을 뿐만 아니라 document update도 가능하다. Elasticsearch는 실제로 엔진에서 인플레이스 업데이트를 수행하지 않는다는 점에 유의하십시오. 업데이트할 때마다 Elasticsearch는 기존 document를 삭제한 다음 업데이트가 적용된 새 document를 한 번에 index한다.
+
+This example shows how to update our previous document (ID of 1) by changing the name field to "Jane Doe":  
+이 예에서는 이름 필드를 "Jane Doe"로 변경하여 이전 문서 (ID 1)를 업데이트하는 방법을 보여 준다.
+
+```bash
+POST /customer/_update/1?pretty
+{
+  "doc": { "name": "Jane Doe" }
+}
+```
+
+This example shows how to update our previous document (ID of 1) by changing the name field to "Jane Doe" and at the same time add an age field to it:  
+이 예에서는 이름 필드를 "Jane Doe"로 변경하고 동시에 나이 필드를 추가하여 이전 문서(ID 1)를 업데이트하는 방법을 보여 준다.
+
+```bash
+POST /customer/_update/1?pretty
+{
+  "doc": { "name": "Jane Doe", "age": 20 }
+}
+```
+
+Updates can also be performed by using simple scripts. This example uses a script to increment the age by 5:  
+업데이트는 간단한 스크립트를 사용하여 수행할 수도 있다. 이 예에서는 스크립트를 사용하여 나이를 5 증가시킨다.
+
+```bash
+POST /customer/_update/1?pretty
+{
+  "script" : "ctx._source.age += 5"
+}
+```
+
+In the above example, `ctx._source` refers to the current source document that is about to be updated.  
+위의 예에서 `ctx._source`는 업데이트를 앞둔 현재 원본 document를 가리킨다.
+
+Elasticsearch provides the ability to update multiple documents given a query condition (like an SQL UPDATE-WHERE statement). See [docs-update-by-query API](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/docs-update-by-query.html)  
+Elasticsearch는 쿼리 조건(SQL의 UPDATE-WHERE 구문 같이)이 주어진 여러 document를 업데이트할 수 있는 기능을 제공한다. Docs-update by Query API 참조
+
 #### 1-4-2) Deleting Documents
 #### 1-4-3) Batch Processing
 ### 1-5. Exploring Your Data
