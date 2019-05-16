@@ -438,7 +438,63 @@ If we study the above commands carefully, we can actually see a pattern of how w
 This REST access pattern is so pervasive throughout all the API commands that if you can simply remember it, you will have a good head start at mastering Elasticsearch.  
 이 REST 액세스 패턴은 모든 API 명령어 전체에 매우 널리 퍼져 있어서, 단순히 기억할 수 있다면, Elasticsearch를 숙달하는 데 있어서 좋은 출발점이 될 것이다.
 
-### 1-4. Modifying Your Data
+### [1-4. Modifying Your Data](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-modify-data.html)
+
+Elasticsearch provides data manipulation and search capabilities in near real time. By default, you can expect a one second delay (refresh interval) from the time you index/update/delete your data until the time that it appears in your search results. This is an important distinction from other platforms like SQL wherein data is immediately available after a transaction is completed.  
+Elasticsearch는 거의 실시간으로 데이터 조작 및 검색 기능을 제공한다. 기본적으로 데이터를 index/updeate/delete 할 때부터 검색 결과에 나타날 때까지 1초 지연(새로 고침 간격)을 예상할 수 있다. 이는 트랜잭션이 완료된 후 즉시 데이터를 사용할 수 있는 SQL과 같은 다른 플랫폼과의 중요한 차이점이다.
+
+
+**Indexing/Replacing Documents**
+
+We’ve previously seen how we can index a single document. Let’s recall that command again:  
+우리는 이전에 단일 documnet를 index할 수 있는 방법을 본 적이 있다. 그 명령을 다시 한 번 생각해 봅시다.
+
+```bash
+PUT /customer/_doc/1?pretty
+{
+  "name": "John Doe"
+}
+```
+
+Again, the above will index the specified document into the customer index, with the ID of 1. If we then executed the above command again with a different (or same) document, Elasticsearch will replace (i.e. reindex) a new document on top of the existing one with the ID of 1:  
+다시, 위 명령어는 customer index에 지정된 document를 ID를 1로 index할 것이다. 그런 다음 위의 명령을 다른(또는 동일한) document로 다시 실행하면, Elasticsearch는 기존 document 위에 새 document를 ID 1로 대체(다시 index)할 것이다.
+
+```bash
+PUT /customer/_doc/1?pretty
+{
+  "name": "Jane Doe"
+}
+```
+
+The above changes the name of the document with the ID of 1 from "John Doe" to "Jane Doe". If, on the other hand, we use a different ID, a new document will be indexed and the existing document(s) already in the index remains untouched.  
+위 명령어에서는 ID가 1인 document의 이름을 "John Doe"에서 "Jane Doe"로 변경한다. 반면에 다른 ID를 사용하면 새 document가 index되고 이미 index에 있는 기존 document는 그대로 유지된다.
+
+```bash
+PUT /customer/_doc/2?pretty
+{
+  "name": "Jane Doe"
+}
+```
+
+The above indexes a new document with an ID of 2.  
+위 명령어 에서는 ID가 2인 새 document가 index된다.
+
+When indexing, the ID part is optional. If not specified, Elasticsearch will generate a random ID and then use it to index the document. The actual ID Elasticsearch generates (or whatever we specified explicitly in the previous examples) is returned as part of the index API call.  
+indexing할 때 ID 부분은 선택사항이다. 지정되지 않은 경우, Elasticsearch는 랜덤 ID를 생성한 다음 이를 사용하여 document를 index한다. 실제 Elasticsearch가 생성하는 ID(또는 앞의 예에서 명시적으로 지정한 ID)는 index API 호출의 일부로 반환된다.
+
+This example shows how to index a document without an explicit ID:  
+이 예에서는 명시적 ID 없이 document를 index하는 방법을 보여 준다.
+
+```bash
+POST /customer/_doc?pretty
+{
+  "name": "Jane Doe"
+}
+```
+
+Note that in the above case, we are using the POST verb instead of PUT since we didn’t specify an ID.  
+위의 경우 특정 ID를 지정하지 않았기 때문에 PUT 대신 POST 동사를 사용하고 있다는 점에 유의한다.
+
 #### 1-4-1) Updating Documents
 #### 1-4-2) Deleting Documents
 #### 1-4-3) Batch Processing
