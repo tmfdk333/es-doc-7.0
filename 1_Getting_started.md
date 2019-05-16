@@ -331,7 +331,70 @@ The results of the second command tells us that we now have one index named cust
 You might also notice that the customer index has a yellow health tagged to it. Recall from our previous discussion that yellow means that some replicas are not (yet) allocated. The reason this happens for this index is because Elasticsearch by default created one replica for this index. Since we only have one node running at the moment, that one replica cannot yet be allocated (for high availability) until a later point in time when another node joins the cluster. Once that replica gets allocated onto a second node, the health status for this index will turn to green.  
 당신은 또한 고객 index에 노란색 health 태그가 붙어 있는 것을 발견할 수 있다. 이전 토론에서 노란색은 일부 복제본이 할당되지 않았다는 것을 의미한다는 것을 상기하십시오. 이 index에 대해 이러한 현상이 발생하는 이유는 기본적으로 Elasticsearch가 이 index에 대한 하나의 replica를 생성했기 때문이다. 현재 하나의 노드만 실행되고 있기 때문에, 다른 노드가 클러스터에 합류하는 나중의 시점까지 하나의 replica를 아직 할당(고가용성)할 수 없다. 복제본이 두 번째 노드에 할당되면 이 index의 상태가 녹색으로 변한다.
 
-#### 1-3-4) Index and Query a Document
+#### [1-3-4) Index and Query a Document](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-query-document.html)
+
+Let’s now put something into our customer index. We’ll index a simple customer document into the customer index, with an ID of 1 as follows:  
+이제 고객 index에 뭔가를 넣자. 다음과 같이 ID가 1인 간단한 고객 document를 고객 index에 index할 것이다.
+
+```bash
+PUT /customer/_doc/1?pretty
+{
+  "name": "John Doe"
+}
+```
+
+And the response:  
+그리고 응답:
+
+```bash
+{
+  "_index" : "customer",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
+```
+
+From the above, we can see that a new customer document was successfully created inside the customer index. The document also has an internal id of 1 which we specified at index time.  
+위에서, 우리는 새로운 고객 docuemnt가 고객 index 안에서 성공적으로 작성되었음을 알 수 있다. 이 document는 또한 index 시간에 지정한 내부 ID 1을 가지고 있다.
+
+It is important to note that Elasticsearch does not require you to explicitly create an index first before you can index documents into it. In the previous example, Elasticsearch will automatically create the customer index if it didn’t already exist beforehand.    
+Elasticsearch는 document를 index하기 전에 명시적으로 index를 생성할 것을 요구하지 않는다는 점에 유의해야 한다. 앞의 예에서, Elasticsearch는 사전에 존재하지 않은 customer index를 자동으로 생성한다.
+
+Let’s now retrieve that document that we just indexed:  
+이제 방금 index한 문서를 검색해 봅시다.
+
+```bash
+GET /customer/_doc/1?pretty
+```
+
+And the response:  
+그리고 응답:
+
+```bash
+{
+  "_index" : "customer",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "_seq_no" : 25,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : { "name": "John Doe" }
+}
+```
+
+Nothing out of the ordinary here other than a field, `found`, stating that we found a document with the requested ID 1 and another field, `_source`, which returns the full JSON document that we indexed from the previous step.  
+요청한 ID인 1을 가진 document를 발견했다는 것을 나타내는 `found` 필드와 이전 단계에서 index한 전체 JSON document를 반환하는 `_source` 필드를 외에 특이한 것은 없다.
+
 #### 1-3-5) Delete an Index
 ### 1-4. Modifying Your Data
 #### 1-4-1) Updating Documents
