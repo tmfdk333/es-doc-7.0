@@ -225,7 +225,66 @@ Now that we have our node (and cluster) up and running, the next step is to unde
 + Execute advanced search operations such as paging, sorting, filtering, scripting, aggregations, and many others
 + 페이징, 정렬, 필터링, 스크립팅, 집계 등의 고급 검색 작업 실행
 
-#### 1-3-1) Cluster Health
+#### [1-3-1) Cluster Health](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-cluster-health.html)
+
+Let’s start with a basic health check, which we can use to see how our cluster is doing. We’ll be using curl to do this but you can use any tool that allows you to make HTTP/REST calls. Let’s assume that we are still on the same node where we started Elasticsearch on and open another command shell window.  
+먼저 클러스터가 어떻게 작동하는지 확인할 수 있는 기본 상태 점검부터 시작합시다. 이를 위해 curl을 사용할 것이지만 HTTP/REST를 호출 할 수 있는 모든 도구를 사용할 수 있다. 우리가 여전히 Elasticsearch on을 시작하고 다른 명령 셸 창을 열었던 동일한 노드에 있다고 가정하자.
+
+
+To check the cluster health, we will be using the [`_cat` API](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/cat.html). You can run the command below in [Kibana’s Console](https://www.elastic.co/guide/en/kibana/7.x/console-kibana.html) by clicking "VIEW IN CONSOLE" or with `curl` by clicking the "COPY AS CURL" link below and pasting it into a terminal.  
+클러스터 상태를 확인하기 위해 `_cat API`를 사용할 것이다. 아래의 명령을 키바나의 콘솔에서 "VIEW IN CONSOLE"을 클릭하거나 아래의 "COPY AS CURL" 링크를 클릭하여 터미널에 붙여넣으면 실행할 수 있다.
+
+```bash
+GET /_cat/health?v
+```
+
+And the response:  
+그리고 응답:
+
+```bash
+epoch      timestamp cluster       status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+1475247709 17:01:49  elasticsearch green           1         1      0   0    0    0        0             0                  -                100.0%
+```
+
+We can see that our cluster named "elasticsearch" is up with a green status.  
+우리는 "elasticsearch"라는 이름의 클러스터가 녹색 상태를 유지하고 있다는 것을 알 수 있다.
+
+Whenever we ask for the cluster health, we either get green, yellow, or red.  
+클러스터 상태를 요청할 때마다 녹색, 노란색 또는 빨간색 중 하나가 된다.
+
+- Green - everything is good (cluster is fully functional)
+- Green - 모든 것이 양호함 (클러스터가 완전히 작동함)
+
++ Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional)
++ Yellow - 모든 데이터를 사용할 수 있지만 일부 복제본이 아직 할당되지 않음 (클러스터가 완전히 작동함)
+
+- Red - some data is not available for whatever reason (cluster is partially functional)
+- Red - 어떤 이유로든 일부 데이터를 사용할 수 없음 (클러스터가 부분적으로 기능함)
+
+**Note**: When a cluster is red, it will continue to serve search requests from the available shards but you will likely need to fix it ASAP since there are unassigned shards.  
+**Note**: 클러스터가 빨간색이면 사용 가능한 샤드의 검색 요청을 계속 처리하지만 할당되지 않은 샤드가 있으므로 최대한 빨리 수정해야 한다.  
+
+Also from the above response, we can see a total of 1 node and that we have 0 shards since we have no data in it yet. Note that since we are using the default cluster name (elasticsearch) and since Elasticsearch uses unicast network discovery by default to find other nodes on the same machine, it is possible that you could accidentally start up more than one node on your computer and have them all join a single cluster. In this scenario, you may see more than 1 node in the above response.  
+또한 위의 응답으로부터 총 1개의 노드를 볼 수 있으며, 아직 데이터가 없기 때문에 0개의 shard를 가지고 있다. 기본 클러스터 이름 (elasticsearch)을 사용하고 있으며, Elasticsearch는 기본적으로 유니캐스트 네트워크 검색을 사용하여 동일한 시스템에서 다른 노드를 찾기 때문에 실수로 컴퓨터에서 둘 이상의 노드를 시작하여 모두 단일 클러스터에 가입시킬 수 있다는 점에 유의하십시오. 이 시나리오에서는 위의 응답에 2개 이상의 노드를 볼 수 있다.
+
+We can also get a list of nodes in our cluster as follows:  
+또한 다음과 같이 클러스터에 있는 노드 목록을 얻을 수 있다.
+
+```bash
+GET /_cat/nodes?v
+```
+
+And the response:
+그리고 응답:
+
+```bash
+ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
+127.0.0.1           10           5   5    4.46                        mdi      *      PB2SGZY
+```
+
+Here, we can see our one node named "PB2SGZY", which is the single node that is currently in our cluster.  
+여기서는 현재 클러스터에 있는 단일 노드인 "PB2SGZY"라는 이름의 노드를 볼 수 있다.
+
 #### 1-3-2) List All Indices
 #### 1-3-3) Create an Index
 #### 1-3-4) Index and Query a Document
