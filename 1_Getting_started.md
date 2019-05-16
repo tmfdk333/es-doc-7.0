@@ -304,7 +304,33 @@ health status index uuid pri rep docs.count docs.deleted store.size pri.store.si
 Which simply means we have no indices yet in the cluster.  
 이것 간단히 말해서 우리가 아직 클러스터에 index를 가지고 있지 않다는 것을 의미한다.
 
-#### 1-3-3) Create an Index
+#### [1-3-3) Create an Index](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-create-index.html)
+
+Now let’s create an index named "customer" and then list all the indexes again:  
+이제 "customer"이라는 index를 생성한 후 모든 index를 다시 나열해 봅시다.
+
+```bash
+PUT /customer?pretty
+GET /_cat/indices?v
+```
+
+The first command creates the index named "customer" using the PUT verb. We simply append pretty to the end of the call to tell it to pretty-print the JSON response (if any).  
+첫 번째 명령은 PUT 동사를 사용하여 "customer"이라는 index를 만든다. JSON 응답(있는 경우)을 예쁘게 출력하기 위해 호출 끝 부분에 pretty를 추가하기만 하면 된다.
+
+And the response:  
+그리고 응답:
+
+```bash
+health status index    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   customer 95SQ4TSUT7mWBT7VNHH67A   1   1          0            0       260b           260b
+```
+
+The results of the second command tells us that we now have one index named customer and it has one primary shard and one replica (the defaults) and it contains zero documents in it.  
+두 번째 명령의 결과에 따르면 우리는 이제 고객이라는 하나의 index를 가지고 있고 그것은 하나의 기본 shard와 하나의 replica (기본값) 가지고 있으며 그 안에 0개의 문서를 포함하고 있다.
+
+You might also notice that the customer index has a yellow health tagged to it. Recall from our previous discussion that yellow means that some replicas are not (yet) allocated. The reason this happens for this index is because Elasticsearch by default created one replica for this index. Since we only have one node running at the moment, that one replica cannot yet be allocated (for high availability) until a later point in time when another node joins the cluster. Once that replica gets allocated onto a second node, the health status for this index will turn to green.  
+당신은 또한 고객 index에 노란색 health 태그가 붙어 있는 것을 발견할 수 있다. 이전 토론에서 노란색은 일부 복제본이 할당되지 않았다는 것을 의미한다는 것을 상기하십시오. 이 index에 대해 이러한 현상이 발생하는 이유는 기본적으로 Elasticsearch가 이 index에 대한 하나의 replica를 생성했기 때문이다. 현재 하나의 노드만 실행되고 있기 때문에, 다른 노드가 클러스터에 합류하는 나중의 시점까지 하나의 replica를 아직 할당(고가용성)할 수 없다. 복제본이 두 번째 노드에 할당되면 이 index의 상태가 녹색으로 변한다.
+
 #### 1-3-4) Index and Query a Document
 #### 1-3-5) Delete an Index
 ### 1-4. Modifying Your Data
