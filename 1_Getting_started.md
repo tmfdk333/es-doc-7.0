@@ -395,7 +395,49 @@ And the response:
 Nothing out of the ordinary here other than a field, `found`, stating that we found a document with the requested ID 1 and another field, `_source`, which returns the full JSON document that we indexed from the previous step.  
 요청한 ID인 1을 가진 document를 발견했다는 것을 나타내는 `found` 필드와 이전 단계에서 index한 전체 JSON document를 반환하는 `_source` 필드를 외에 특이한 것은 없다.
 
-#### 1-3-5) Delete an Index
+#### [1-3-5) Delete an Index](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-delete-index.html)
+
+Now let’s delete the index that we just created and then list all the indexes again:  
+이제 방금 생성한 index를 삭제한 후 모든 index를 다시 나열해 봅시다.
+
+```bash
+DELETE /customer?pretty
+GET /_cat/indices?v
+```
+
+And the response:  
+그리고 응답:
+
+```bash
+health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
+```
+
+Which means that the index was deleted successfully and we are now back to where we started with nothing in our cluster.  
+이는 index가 성공적으로 삭제되었고 이제 클러스터에서 아무것도 없이 시작했던 때으로 되돌아갔다는 것을 의미한다.
+
+Before we move on, let’s take a closer look again at some of the API commands that we have learned so far:  
+다음으로 넘어가기 전에 지금까지 학습한 API 명령 중 몇 가지를 다시 한 번 자세히 살펴봅시다.
+
+```bash
+PUT /customer
+PUT /customer/_doc/1
+{
+  "name": "John Doe"
+}
+GET /customer/_doc/1
+DELETE /customer
+```
+
+If we study the above commands carefully, we can actually see a pattern of how we access data in Elasticsearch. That pattern can be summarized as follows:  
+위의 명령어를 주의 깊게 연구하면, 실제로 우리가 Elasticsearch에서 데이터에 접근하는 패턴을 볼 수 있다. 이 패턴은 다음과 같이 요약할 수 있다.
+
+```bash
+<HTTP Verb> /<Index>/<Endpoint>/<ID>
+```
+
+This REST access pattern is so pervasive throughout all the API commands that if you can simply remember it, you will have a good head start at mastering Elasticsearch.  
+이 REST 액세스 패턴은 모든 API 명령어 전체에 매우 널리 퍼져 있어서, 단순히 기억할 수 있다면, Elasticsearch를 숙달하는 데 있어서 좋은 출발점이 될 것이다.
+
 ### 1-4. Modifying Your Data
 #### 1-4-1) Updating Documents
 #### 1-4-2) Deleting Documents
