@@ -206,7 +206,25 @@ As mentioned previously, we can override either the cluster or node name. This c
 Also note the line marked http with information about the HTTP address (192.168.8.112) and port (9200) that our node is reachable from. By default, Elasticsearch uses port 9200 to provide access to its REST API. This port is configurable if necessary.  
 또한 http로 표시된 행에 노드가 연결할 수 있는 HTTP 주소(192.168.8.112) 및 포트(9200)에 대한 정보를 기록하십시오. 기본적으로 Elasticsearch는 포트 9200을 사용하여 REST API에 대한 액세스를 제공한다. 이 포트는 필요한 경우 구성할 수 있다.
 
-### 1-3. Exploring Your Cluster
+### [1-3. Exploring Your Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/getting-started-explore.html)
+
+**The REST API**
+
+Now that we have our node (and cluster) up and running, the next step is to understand how to communicate with it. Fortunately, Elasticsearch provides a very comprehensive and powerful REST API that you can use to interact with your cluster. Among the few things that can be done with the API are as follows:  
+이제 노드(및 클러스터)를 가동하고 실행하고 있으므로 다음 단계는 노드와의 통신 방법을 이해하는 것이다. 다행히도 Elasticsearch는 클러스터와 상호 작용하는 데 사용할 수 있는 매우 포괄적이고 강력한 REST API를 제공한다. API로 할 수 있는 몇 가지 일 중 다음과 같은 것이 있다.
+
+- Check your cluster, node, and index health, status, and statistics
+- 클러스터, 노드 및 인덱스 상태, 상태 및 통계 확인
+
++ Administer your cluster, node, and index data and metadata
++ 클러스터, 노드 및 인덱스 데이터 및 메타데이터 관리
+
+- Perform CRUD (Create, Read, Update, and Delete) and search operations against your indexes
+- 인덱스에 대해 CRUD(생성, 읽기, 업데이트 및 삭제) 및 검색 작업 수행
+
++ Execute advanced search operations such as paging, sorting, filtering, scripting, aggregations, and many others
++ 페이징, 정렬, 필터링, 스크립팅, 집계 등의 고급 검색 작업 실행
+
 #### 1-3-1) Cluster Health
 #### 1-3-2) List All Indices
 #### 1-3-3) Create an Index
