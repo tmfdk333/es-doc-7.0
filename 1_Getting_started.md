@@ -932,6 +932,44 @@ GET /bank/_search
 }
 ```
 
-#### 1-5-4) Executing Filters
+#### [1-5-4) Executing Filters](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-filters.html)
+
+In the previous section, we skipped over a little detail called the document score (`_score` field in the search results). The score is a numeric value that is a relative measure of how well the document matches the search query that we specified. The higher the score, the more relevant the document is, the lower the score, the less relevant the document is.  
+이전 섹션에서는 document 점수 (검색 결과의 `_score` 필드)라고 하는 약간 자세한 사항을 건너뛰었다. 점수는 우리가 지정한 search 쿼리와 document가 얼마나 잘 일치하는지 나타내는 상대적인 측정값이다. 점수가 높을수록 더 관련있는 document이고, 점수가 낮을수록 관련성이 떨어지는 document이다.
+
+But queries do not always need to produce scores, in particular when they are only used for "filtering" the document set. Elasticsearch detects these situations and automatically optimizes query execution in order not to compute useless scores.    
+하지만 document set을 단지 "filtering"하는 데만 사용하는 특별한 경우, 쿼리가 항상 점수를 산출할 필요는 없다. Elasticsearch는 이러한 상황을 감지하고 쓸모없는 점수를 계산하지 않기 위해서 자동으로 쿼리 실행을 최적화한다.
+
+The [`bool` query](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/query-dsl-bool-query.html) that we introduced in the previous section also supports `filter` clauses which allow us to use a query to restrict the documents that will be matched by other clauses, without changing how scores are computed. As an example, let’s introduce the [`range` query](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/query-dsl-range-query.html), which allows us to filter documents by a range of values. This is generally used for numeric or date filtering.  
+이전 섹션에서 소개한 `bool` 쿼리 또한 점수를 계산하는 방법을 변경하지 않고 쿼리를 사용하여 다른 절과 일치하는 document를 제한할 수 있는 `filter` 절을 제공한다. 예를 들어, 값의 범위로 document를 필터링할 수 있는 `range` 쿼리를 소개한다. 이것은 일반적으로 숫자나 날짜 필터링에 사용된다. 
+
+This example uses a bool query to return all accounts with balances between 20000 and 30000, inclusive. In other words, we want to find accounts with a balance that is greater than or equal to 20000 and less than or equal to 30000.  
+이 예는 20000과 30000사이가 포함된 잔액의 모든 계정을 반환하기 위해 bool 쿼리를 사용한다. 즉, 잔액이 20000보다 크거나 같고 30000보다 작거나 같은 계정을 찾으려고 한다.
+
+```bash
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": { "match_all": {} },
+      "filter": {
+        "range": {
+          "balance": {
+            "gte": 20000,
+            "lte": 30000
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Dissecting the above, the bool query contains a `match_all` query (the query part) and a `range` query (the filter part). We can substitute any other queries into the query and the filter parts. In the above case, the range query makes perfect sense since documents falling into the range all match "equally", i.e., no document is more relevant than another.  
+위의 내용을 해부해보면, bool 쿼리는 `match_all` 쿼리 (query 부분)와 `range` 쿼리 (filter 부분)를 포함한다. 우리는 query와 filter 부분에 다른 쿼리를 대체할 수 있다. 위의 경우, 범위에 속하는 document가 모두 "동등하게" 일치하기 때문에 range 쿼리는 완벽하게 타당하다. 즉, 다른 document보다 관련성이 높은 document가 없다.
+
+In addition to the `match_all`, `match`, `bool`, and `range` queries, there are a lot of other query types that are available and we won’t go into them here. Since we already have a basic understanding of how they work, it shouldn’t be too difficult to apply this knowledge in learning and experimenting with the other query types.  
+`match_all`, `match`, `bool` 그리고 `range` 쿼리 외에도 사용할 수 있는 다른 쿼리 종류가 많이 있지만 여기서는 다루지 않을 것이다. 이미 그것들이 어떻게 작동하는지에 대한 기본적인 이해를 가지고 있기 때문에, 다른 쿼리 종류를 배우고 실험하는 데 이 지식을 적용하는 것은 그리 어렵지 않을 것이다. 
+
 #### 1-5-5) Executing Aggregations
 ### 1-6. Conclusion
