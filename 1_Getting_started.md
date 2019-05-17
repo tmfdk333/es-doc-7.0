@@ -734,7 +734,64 @@ The difference here is that instead of passing `q=*` in the URI, we provide a JS
 It is important to understand that once you get your search results back, Elasticsearch is completely done with the request and does not maintain any kind of server-side resources or open cursors into your results. This is in stark contrast to many other platforms such as SQL wherein you may initially get a partial subset of your query results up-front and then you have to continuously go back to the server if you want to fetch (or page through) the rest of the results using some kind of stateful server-side cursor.  
 일단 검색 결과를 얻으면, Elasticsearch는 요청과 함께 완전히 완료되고 어떤 종류의 서버측 자원이나 오픈 커서를 당신의 결과물로 유지하지 않는다는 점을 이해하는 것이 중요하다. 이것은 당신이 처음에 쿼리 결과의 부분 서브셋을 미리 얻은 다음 어떤 상태의 서버측 커서를 사용하여 나머지 결과를 가져오려면 (혹은 페이지 간) 당신은 계속 서버로 돌아가야 한다는 점에서 SQL과 같은 다른 많은 플랫폼과 극명한 대조를 이룬다.
 
-#### 1-5-2) Introducing the Query Language
+#### [1-5-2) Introducing the Query Language](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-query-lang.html)
+
+Elasticsearch provides a JSON-style domain-specific language that you can use to execute queries. This is referred to as the [Query DSL](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/query-dsl.html). The query language is quite comprehensive and can be intimidating at first glance but the best way to actually learn it is to start with a few basic examples.  
+Elasticsearch는 쿼리를 실행하는 데 사용할 수 있는 JSON 스타일의 도메인별 언어를 제공한다. 이를 쿼리 DSL이라고 한다. 질의어는 꽤 포괄적이고 언뜻 보기에는 위협적일 수 있지만 실제로 배우는 가장 좋은 방법은 몇 가지 기본적인 예시로 시작하는 것이다.
+
+Going back to our last example, we executed this query:  
+마지막 예제로 돌아가서, 우리는 다음과 같은 쿼리를 실행했다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match_all": {} }
+}
+```
+
+Dissecting the above, the `query` part tells us what our query definition is and the `match_all` part is simply the type of query that we want to run. The `match_all` query is simply a search for all documents in the specified index.  
+위의 내용을 해부해보면, `query` 부분은 쿼리의 정의가 무엇인지 알려주고, `match_all` 부분은 단순히 우리가 실행하고자 하는 쿼리 유형이다. `match_all` 쿼리는 단순히 지정된 index에서 모든 document를 검색하는 것이다.
+
+In addition to the `query` parameter, we also can pass other parameters to influence the search results. In the example in the section above we passed in `sort`, here we pass in `size`:    
+`query` parameter 외에도 다른 parameter를 전달하여 검색 결과에 영향을 미칠수 있다. 이전 섹션의 예에서는 `sort`를 전달했지만, 여기서는 `size`를 전달한다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match_all": {} },
+  "size": 1
+}
+```
+
+Note that if `size` is not specified, it defaults to 10.  
+`size`가 지정되지 않으면 기본값은 10이다.
+
+This example does a `match_all` and returns documents 10 through 19:  
+이 예에서는 `match_all`을 수행하고 10~19의 document를 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match_all": {} },
+  "from": 10,
+  "size": 10
+}
+```
+
+The `from` parameter (0-based) specifies which document index to start from and the `size` parameter specifies how many documents to return starting at the from parameter. This feature is useful when implementing paging of search results. Note that if `from` is not specified, it defaults to 0.  
+`from` parameter (0-기저)는 시작할 document 번호를 지정하고, `size` parameter는 `from` 파라미터에서 시작하여 반환할 document 수를 지정한다. 이 기능은 검색 결과 페이징을 실행할 때 유용하다. `from`이 지정되지 않은 경우 기본값은 0이다.
+
+This example does a `match_all` and sorts the results by account balance in descending order and returns the top 10 (default size) documents.  
+이 예에서는 `match_all`로 실행하고 계정 잔액의 내림차순으로 결과를 정렬한 뒤 상위 10개 (기본 크기) document를 반환한다. 
+
+```bash
+GET /bank/_search
+{
+  "query": { "match_all": {} },
+  "sort": { "balance": { "order": "desc" } }
+}
+```
+
 #### 1-5-3) Executing Searches
 #### 1-5-4) Executing Filters
 #### 1-5-5) Executing Aggregations
