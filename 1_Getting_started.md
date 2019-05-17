@@ -627,7 +627,113 @@ yellow open   bank  l7sSYV2cQXmu6_4rJWVIww   5   1       1000            0    12
 Which means that we just successfully bulk indexed 1000 documents into the bank index.  
 그것은 우리가 성공적으로 1000개의 문서를 bank index로 bulk index 했다는 것을 의미한다.
 
-#### 1-5-1) The Search API
+#### [1-5-1) The Search API](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-search-API.html)
+
+Now let’s start with some simple searches. There are two basic ways to run searches: one is by sending search parameters through the [REST request URI](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/search-uri-request.html) and the other by sending them through the [REST request body](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/search-request-body.html). The request body method allows you to be more expressive and also to define your searches in a more readable JSON format. We’ll try one example of the request URI method but for the remainder of this tutorial, we will exclusively be using the request body method.  
+이제 간단한 검색부터 시작합시다. 검색을 실행하는 두 가지 기본적인 방법은 REST request URL와 REST request body를 통해 검색 parameter를 보내는 것이다. request body 방법을 사용하면 보다 표현력이 뛰어나고 보다 읽기 쉬운 JSON 형식으로 검색을 정의할 수 있다. request URL 방법의 한 예를 시도해 볼 것이지만, 이 튜토리얼의 나머지 부분에서는 오로지 request body 방법을 사용할 것이다. 
+
+The REST API for search is accessible from the `_search` endpoint. This example returns all documents in the bank index:  
+검색을 위한 REST API는 `_search` endpoint에서 엑세스할 수 있다. 이 예에서는 은행 index의 모든 document를 반환한다. 
+
+```bash
+GET /bank/_search?q=*&sort=account_number:asc&pretty
+```
+
+Let’s first dissect the search call. We are searching (`_search` endpoint) in the bank index, and the `q=*` parameter instructs Elasticsearch to match all documents in the index. The `sort=account_number:asc` parameter indicates to sort the results using the `account_number` field of each document in an ascending order. The `pretty` parameter, again, just tells Elasticsearch to return pretty-printed JSON results.  
+먼저 search 호출을 해부해 봅시다. 우리는 은행 index에서 검색하고 (_search endpoint) 있으며, `q=*` parameter는 index의 모든 document와 일치하도록 ElasticSearch에게 알려준다. `sort=account_number:asc` parameter는 각 document의 `account_number` 필드를 사용하여 오름차순으로 정렬한 결과를 나타낸다. 다시 한 번, `pretty` parameter는 단지 Elasticsearch에게 JSON 결과를 예쁘게 출력하여 반환하도록 전한다.
+
+And the response (partially shown):  
+그리고 응답(부분적으로 표시):
+
+```bash
+{
+  "took" : 63,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+        "value": 1000,
+        "relation": "eq"
+    },
+    "max_score" : null,
+    "hits" : [ {
+      "_index" : "bank",
+      "_type" : "_doc",
+      "_id" : "0",
+      "sort": [0],
+      "_score" : null,
+      "_source" : {"account_number":0,"balance":16623,"firstname":"Bradshaw","lastname":"Mckenzie","age":29,"gender":"F","address":"244 Columbus Place","employer":"Euron","email":"bradshawmckenzie@euron.com","city":"Hobucken","state":"CO"}
+    }, {
+      "_index" : "bank",
+      "_type" : "_doc",
+      "_id" : "1",
+      "sort": [1],
+      "_score" : null,
+      "_source" : {"account_number":1,"balance":39225,"firstname":"Amber","lastname":"Duke","age":32,"gender":"M","address":"880 Holmes Lane","employer":"Pyrami","email":"amberduke@pyrami.com","city":"Brogan","state":"IL"}
+    }, ...
+    ]
+  }
+}
+```
+
+As for the response, we see the following parts:  
+응답에 대해서는, 다음과 같은 부분을 본다.
+
+- `took` – time in milliseconds for Elasticsearch to execute the search
+- `took` - Elasticsearch가 검색을 실행하는 시간(밀리초)
+
++ `timed_out` – tells us if the search timed out or not
++ `timed_out` - 검색 시간이 초과되었는지 여부
+
+- `_shards` – tells us how many shards were searched, as well as a count of the successful/failed searched shards
+- `_shards` - 얼마나 많은 shard가 검색되었는지, 검색 성공/실패한 shard의 수
+
++ `hits` – search results
++ `hits` - 검색 결과
+
+- `hits.total` – an object that contains information about the total number of documents matching our search criteria
+- `hits.total` - 우리의 검색 기준과 일치하는 총 document 수에 대한 정보를 포함하는 객체
+    - `hits.total.value` - the value of the total hit count (must be interpreted in the context of `hits.total.relation`).
+    - `hits.total.value` - 총 hit 수  (`hits.total.relation`의 context로 해석해야 함)
+    - `hits.total.relation` - whether `hits.total.value` is the exact hit count, in which case it is equal to `"eq"` or a lower bound of the total hit count (greater than or equals), in which case it is equal to `gte`.
+    - `hits.total.relation` - `hits.total.value`가 정확한 hit count인지 여부. 이 경우 `"eq"`와 같거나 total hit count (많거나 적거나)의 하한선이며, 이 경우 `gte`와 같다.
+
++ `hits.hits` – actual array of search results (defaults to first 10 documents)
++ `hits.hits` - 실제 검색 결과의 배열 (기본값은 document의 첫 10개)
+
+- `hits.sort` - sort key for results (missing if sorting by score)
+- `hits.sort` - 결과의 키 정렬 (점수로 정렬하는 경우 누락)
+
++ `hits._score` and `max_score` - ignore these fields for now
++ `hits._score` 와 `max_score` - 이 필드는 지금은 무시
+
+The accuracy of `hits.total` is controlled by the request parameter `track_total_hits`, when set to true the request will track the total hits accurately (`"relation": "eq"`). It defaults to `10,000` which means that the total hit count is accurately tracked up to `10,000` documents. You can force an accurate count by setting `track_total_hits` to true explicitly. See the [request body](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-track-total-hits.html) documentation for more details.    
+`hits.total`의 정확도는 요청 parameter인 `track_total_hits`에 의해 제어되며, 요청이 true로 설정되면 total hits를 정확하게 추적한다 (`"relation": "eq"`). 기본값은 `10,000`으로, 이는 total hit의 수를 최대 10,000개의 document까지 정확하게 추적한다는 것을 의미한다. `track_total_hits`를 명시적으로 true로 설정하여 정확히 계산하도록 강제할 수 있다. 자새한 내용은 request body 문서를 참조하십시오.
+
+Here is the same exact search above using the alternative request body method:  
+다음은 위의 예제 대신 request body 방법을 사용한 동일한 검색이다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match_all": {} },
+  "sort": [
+    { "account_number": "asc" }
+  ]
+}
+```
+
+The difference here is that instead of passing `q=*` in the URI, we provide a JSON-style query request body to the `_search` API. We’ll discuss this JSON query in the next section.  
+여기서 차이점은 URI에서 `q=*`를 전달하는 대신 `_search` API에 JSON 스타일의 쿼리 request body를 제공한다는 점이다. 이 JSON 쿼리는 다음 섹션에서 논의할 것이다.
+
+It is important to understand that once you get your search results back, Elasticsearch is completely done with the request and does not maintain any kind of server-side resources or open cursors into your results. This is in stark contrast to many other platforms such as SQL wherein you may initially get a partial subset of your query results up-front and then you have to continuously go back to the server if you want to fetch (or page through) the rest of the results using some kind of stateful server-side cursor.  
+일단 검색 결과를 얻으면, Elasticsearch는 요청과 함께 완전히 완료되고 어떤 종류의 서버측 자원이나 오픈 커서를 당신의 결과물로 유지하지 않는다는 점을 이해하는 것이 중요하다. 이것은 당신이 처음에 쿼리 결과의 부분 서브셋을 미리 얻은 다음 어떤 상태의 서버측 커서를 사용하여 나머지 결과를 가져오려면 (혹은 페이지 간) 당신은 계속 서버로 돌아가야 한다는 점에서 SQL과 같은 다른 많은 플랫폼과 극명한 대조를 이룬다.
+
 #### 1-5-2) Introducing the Query Language
 #### 1-5-3) Executing Searches
 #### 1-5-4) Executing Filters
