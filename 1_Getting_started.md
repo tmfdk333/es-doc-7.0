@@ -792,7 +792,146 @@ GET /bank/_search
 }
 ```
 
-#### 1-5-3) Executing Searches
+#### [1-5-3) Executing Searches](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-search.html)
+
+Now that we have seen a few of the basic search parameters, let’s dig in some more into the Query DSL. Let’s first take a look at the returned document fields. By default, the full JSON document is returned as part of all searches. This is referred to as the source (`_source` field in the search hits). If we don’t want the entire source document returned, we have the ability to request only a few fields from within source to be returned.  
+이제 몇 가지 기본 검색 parameter를 살펴보았으므로 쿼리 DSL에 대해 좀 더 자세히 알아봅시다. 먼저 반환된 document의 필드를 살펴보자. 기본적으로 전체 JSON document는 모든 검색의 일부로 반환된다. 이를 source(검색 hits의 `_source` 필드)라고 한다. 전체 source document를 반환하지 않으려면 반환된 source 내에서 몇 개의 필드만 요청할 수 있다.
+
+This example shows how to return two fields, `account_number` and `balance` (inside of `_source`), from the search:      
+이 예에서는 검색에서 `account_number` 및 `balance` (`_source` 안의) 두 필드를 반환하는 방법을 보여 준다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match_all": {} },
+  "_source": ["account_number", "balance"]
+}
+```
+
+Note that the above example simply reduces the `_source` field. It will still only return one field named `_source` but within it, only the fields `account_number` and `balance` are included.  
+위의 예제는 단순히 `_source` 필드를 축소한다는 점에 유의하십시오. 그것은 여전히 `_source`라는 단 하나의 필드를 반환할 것이지만, 그 안에는 `account_number`와 `balance` 필드만 포함된다.
+
+If you come from a SQL background, the above is somewhat similar in concept to the `SQL SELECT FROM` field list.  
+만약 당신이 SQL을 안다면, 위의 개념은 `SQL SELECT FROM` 필드 리스트와 다소 유사하다.
+
+Now let’s move on to the query part. Previously, we’ve seen how the `match_all` query is used to match all documents. Let’s now introduce a new query called the [`match` query](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/query-dsl-match-query.html), which can be thought of as a basic fielded search query (i.e. a search done against a specific field or set of fields).  
+이제 질의 부분으로 넘어가자. 이전에는 `match_all` 쿼리가 어떻게 모든 document와 일치하도록 사용되는지 살펴보았다. 이제 기본 필드 검색 쿼리(즉, 특정 필드 또는 필드 집합에 대해 수행된 검색)로 생각할 수 있는 `match` query라는 새로운 쿼리를 소개하기로 하자.
+
+This example returns the account numbered 20:  
+이 예에서는 20번으로 번호가 매겨진 계정을 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match": { "account_number": 20 } }
+}
+```
+
+This example returns all accounts containing the term "mill" in the address:  
+이 예는 주소에 "mill"이라는 용어를 포함하는 모든 계정을 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match": { "address": "mill" } }
+}
+```
+
+This example returns all accounts containing the term "mill" or "lane" in the address:  
+이 예에서는 주소에 "mill" 또는 "lane"라는 용어가 포함된 모든 계정을 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": { "match_phrase": { "address": "mill lane" } }
+}
+```
+
+Let’s now introduce the [`bool` query](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/query-dsl-bool-query.html). The `bool` query allows us to compose smaller queries into bigger queries using boolean logic.  
+이제 `bool` query를 소개합시다. `bool` 쿼리는 boolean 로직을 사용하여 작은 쿼리를 더 큰 쿼리로 구성하도록 해준다.
+
+This example composes two `match` queries and returns all accounts containing "mill" and "lane" in the address:  
+이 예제는 두 개의 `match` 쿼리들을 구성하고 주소에 "mill"과 "lane"이 포함된 모든 계정을 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  }
+}
+```
+
+In the above example, the `bool must` clause specifies all the queries that must be true for a document to be considered a match.  
+위의 예에서, `bool must` 절은 document가 일치되기 위해 true여야 하는 모든 쿼리를 명시해야 한다.
+
+In contrast, this example composes two `match` queries and returns all accounts containing "mill" or "lane" in the address:  
+대조적으로, 이 예제는 두 개의 `match` 쿼리들을 구성하고 주소에 "mill" 또는 "lane"이 포함된 모든 계정을 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  }
+}
+```
+
+In the above example, the `bool should` clause specifies a list of queries either of which must be true for a document to be considered a match.  
+위의 예에서, `bool should` 절은 document가 일치되기 위해 둘 중 하나가 true여야 하는 쿼리 목록을 명시해야 한다.
+
+This example composes two `match` queries and returns all accounts that contain neither "mill" nor "lane" in the address:  
+이 예제는 두 개의 `match` 쿼리들을 구성하고 주소에 "mill"도 "lane"도 없는 모든 계정을 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  }
+}
+```
+
+In the above example, the `bool must_not` clause specifies a list of queries none of which must be true for a document to be considered a match.  
+위의 예에서, `bool must_not` 절은 document가 일치되기 위해 true가 아닌 쿼리 목록을 명시해야 한다.
+
+We can combine `must`, `should`, and `must_not` clauses simultaneously inside a `bool` query. Furthermore, we can compose bool queries inside any of these bool clauses to mimic any complex multi-level boolean logic.  
+`bool` query 안에서 `must`, `should`, `must_not` 절을 동시에 결합할 수 있다. 게다가 우리는 복잡한 다단계 boolean 로직을 모방하기 위해 이러한 bool 절 안에 bool 쿼리들을 구성할 수 있다.
+
+This example returns all accounts of anybody who is 40 years old but doesn’t live in ID(aho):  
+이 예에서는 40세지만 ID(aho)에 거주하지 않는 사람의 모든 계정을 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "age": "40" } }
+      ],
+      "must_not": [
+        { "match": { "state": "ID" } }
+      ]
+    }
+  }
+}
+```
+
 #### 1-5-4) Executing Filters
 #### 1-5-5) Executing Aggregations
 ### 1-6. Conclusion
