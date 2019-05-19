@@ -971,5 +971,202 @@ Dissecting the above, the bool query contains a `match_all` query (the query par
 In addition to the `match_all`, `match`, `bool`, and `range` queries, there are a lot of other query types that are available and we won’t go into them here. Since we already have a basic understanding of how they work, it shouldn’t be too difficult to apply this knowledge in learning and experimenting with the other query types.  
 `match_all`, `match`, `bool` 그리고 `range` 쿼리 외에도 사용할 수 있는 다른 쿼리 종류가 많이 있지만 여기서는 다루지 않을 것이다. 이미 그것들이 어떻게 작동하는지에 대한 기본적인 이해를 가지고 있기 때문에, 다른 쿼리 종류를 배우고 실험하는 데 이 지식을 적용하는 것은 그리 어렵지 않을 것이다. 
 
-#### 1-5-5) Executing Aggregations
+#### [1-5-5) Executing Aggregations](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-aggregations.html)
+
+Aggregations provide the ability to group and extract statistics from your data. The easiest way to think about aggregations is by roughly equating it to the SQL GROUP BY and the SQL aggregate functions. In Elasticsearch, you have the ability to execute searches returning hits and at the same time return aggregated results separate from the hits all in one response. This is very powerful and efficient in the sense that you can run queries and multiple aggregations and get the results back of both (or either) operations in one shot avoiding network roundtrips using a concise and simplified API.  
+Aggregations은 데이터에서 그룹화하고 통계를 추출하는 기능을 제공한다. Aggregations에 대해 생각하는 가장 쉬운 방법은 이를 SQL GROUP BY 및 SQL Aggregate 기능과 대략 동일시하는 것이다. Elasticsearch에서, 당신은 hits를 반환하는 검색을 실행과 동시에 hits로부터 분리된 집계 결과를 한 번의 응답에서 반환할 수 있다. 이것은 쿼리와 여러 집계를 실행한 뒤 간결하고 단순화된 API를 사용하여 네트워크 라운드 트립을 피하면서 한 번에 두개의 작업(또는 둘 중 하나) 결과를 얻을 수 있다는 점에서 매우 강력하고 효율적이다.
+
+To start with, this example groups all the accounts by state, and then returns the top 10 (default) states sorted by count descending (also default):  
+이 예제에서는 모든 계정을 상태별로 그룹화한 다음 내림차순 (기본값) 으로 정렬된 상위 10개 (기본값) 상태를 반환한다.
+
+```bash
+GET /bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "group_by_state": {
+      "terms": {
+        "field": "state.keyword"
+      }
+    }
+  }
+}
+```
+
+In SQL, the above aggregation is similar in concept to:  
+SQL에서 위의 집계는 개념상 다음과 유사하다.
+
+```bash
+SELECT state, COUNT(*) FROM bank GROUP BY state ORDER BY COUNT(*) DESC LIMIT 10;
+```
+
+And the response (partially shown):  
+그리고 응답(부분적으로 표시):
+
+```bash
+{
+  "took": 29,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped" : 0,
+    "failed": 0
+  },
+  "hits" : {
+     "total" : {
+        "value": 1000,
+        "relation": "eq"
+     },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "group_by_state" : {
+      "doc_count_error_upper_bound": 20,
+      "sum_other_doc_count": 770,
+      "buckets" : [ {
+        "key" : "ID",
+        "doc_count" : 27
+      }, {
+        "key" : "TX",
+        "doc_count" : 27
+      }, {
+        "key" : "AL",
+        "doc_count" : 25
+      }, {
+        "key" : "MD",
+        "doc_count" : 25
+      }, {
+        "key" : "TN",
+        "doc_count" : 23
+      }, {
+        "key" : "MA",
+        "doc_count" : 21
+      }, {
+        "key" : "NC",
+        "doc_count" : 21
+      }, {
+        "key" : "ND",
+        "doc_count" : 21
+      }, {
+        "key" : "ME",
+        "doc_count" : 20
+      }, {
+        "key" : "MO",
+        "doc_count" : 20
+      } ]
+    }
+  }
+}
+```
+
+We can see that there are 27 accounts in `ID` (Idaho), followed by 27 accounts in `TX` (Texas), followed by 25 accounts in `AL` (Alabama), and so forth.    
+`ID` (Idaho)에는 27개의 계정이 있으며, 그 다음으로 `TX` (Texas)에 27개의 계정이 있고 `AL` (Alabama)에 25개의 계정 등이 있는 것을 볼 수 있다.
+
+Note that we set `size=0` to not show search hits because we only want to see the aggregation results in the response.  
+응답에서 집게 결과만 보길 원하기 때문에 search hits가 나타나지 않도록 `size=0`을 설정했다는 점에 유의하십시오.
+
+Building on the previous aggregation, this example calculates the average account balance by state (again only for the top 10 states sorted by count in descending order):  
+이전 집계를 바탕으로 이 예제는 상태별 계정의 평균 잔액을 계산한다 (다시, 내림차순으로 정렬된 것 중 상위 10개의 상태).
+
+```bash
+GET /bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "group_by_state": {
+      "terms": {
+        "field": "state.keyword"
+      },
+      "aggs": {
+        "average_balance": {
+          "avg": {
+            "field": "balance"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Notice how we nested the `average_balance` aggregation inside the `group_by_state` aggregation. This is a common pattern for all the aggregations. You can nest aggregations inside aggregations arbitrarily to extract pivoted summarizations that you require from your data.  
+`group_by_state` 집계 내에서 `average_balance` 집계를 중첩한 방법에 주목하십시오. 이것은 모든 집계에 공통적인 패턴이다. 당신의 데이터에서 당신이 필요한 증심 요약을 추출하기 위해 Aggregation 내에 임의로 Aggregation을 중첩할 수 있다.
+
+Building on the previous aggregation, let’s now sort on the average balance in descending order:  
+이전 집계를 바탕으로 평균 잔액을 내림차순으로 정렬해 봅시다.
+
+```bash
+GET /bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "group_by_state": {
+      "terms": {
+        "field": "state.keyword",
+        "order": {
+          "average_balance": "desc"
+        }
+      },
+      "aggs": {
+        "average_balance": {
+          "avg": {
+            "field": "balance"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+This example demonstrates how we can group by age brackets (ages 20-29, 30-39, and 40-49), then by gender, and then finally get the average account balance, per age bracket, per gender:  
+이 예는 연령대(20-29세, 30-39세, 40-49세)와 성별로 그룹화한 다음 마지막으로 연령대별, 성별로 평균 계정 잔액을 얻을 수 있는 방법을 보여준다.
+
+```bash
+GET /bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "group_by_age": {
+      "range": {
+        "field": "age",
+        "ranges": [
+          {
+            "from": 20,
+            "to": 30
+          },
+          {
+            "from": 30,
+            "to": 40
+          },
+          {
+            "from": 40,
+            "to": 50
+          }
+        ]
+      },
+      "aggs": {
+        "group_by_gender": {
+          "terms": {
+            "field": "gender.keyword"
+          },
+          "aggs": {
+            "average_balance": {
+              "avg": {
+                "field": "balance"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+There are many other aggregations capabilities that we won’t go into detail here. The [aggregations reference guide](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/search-aggregations.html) is a great starting point if you want to do further experimentation.  
+여기에서는 자세히 설명하지 않을 다른 많은 aggreation 기능들이 있다. 추가 실험을 하려는 경우 aggregation reference guide가 좋은 출발점이 될 것이다.
+
 ### 1-6. Conclusion
