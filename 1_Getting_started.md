@@ -1169,4 +1169,7 @@ GET /bank/_search
 There are many other aggregations capabilities that we won’t go into detail here. The [aggregations reference guide](https://www.elastic.co/guide/en/elasticsearch/reference/7.0/search-aggregations.html) is a great starting point if you want to do further experimentation.  
 여기에서는 자세히 설명하지 않을 다른 많은 aggreation 기능들이 있다. 추가 실험을 하려는 경우 aggregation reference guide가 좋은 출발점이 될 것이다.
 
-### 1-6. Conclusion
+### [1-6) Conclusion](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-conclusion.html)
+
+Elasticsearch is both a simple and complex product. We’ve so far learned the basics of what it is, how to look inside of it, and how to work with it using some of the REST APIs. Hopefully this tutorial has given you a better understanding of what Elasticsearch is and more importantly, inspired you to further experiment with the rest of its great features!  
+Elasticsearch는 단순하면서도 복잡한 제품이다. 지금까지 우리는 이것이 무엇인지, 이것의 내부를 어떻게 보는지, 그리고 몇몇의 REST API를 사용하여 어떻게 동작하는지에 대한 기초를 배웠다. 이 튜토리얼로 당신이 Elasticsearch가 무엇인지 더 잘 이해하고 더 중요한 것은 Elasticsearch의 다른 좋은 기능들로 더 많은 실험을 하도록 영감을 주었기를 바란다!
